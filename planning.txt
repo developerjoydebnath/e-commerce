@@ -1,0 +1,67 @@
+
+project structure
+
+root
+  - src 
+    - app
+      - (auth)
+        - login
+        - signup
+        - forget-password
+          - verify-otp
+          - success
+      - (public)
+        - cart
+          - checkout
+        - wishlist
+        - compare
+        - products
+          - [slug]
+            - page.tsx
+            - layout.tsx
+          - page.tsx  
+          - layout.tsx
+          - loading.tsx
+        - page.tsx
+        - layout.tsx
+        - loading.tsx
+      - protected
+    - modules
+      - auth
+        - login
+          - components (all components of auth)
+          - service (all api call here)
+          - types
+          - schema
+          - utils
+          - store
+          - constant
+        - signup
+        ...
+        - home
+          - components (all components of auth)
+          - service (all api call here)
+          - types
+          - schema
+          - utils
+          - store
+          - constant
+        - product
+        ...
+    - shared
+      - lib
+      - utils
+      - constants
+      - models 
+      - configs
+      - hooks
+      - providers
+      - stores
+      - types
+    proxy.ts (previous name was middleware.ts)
+  .env
+  package.json
+  ... others config files
+
+
+  
