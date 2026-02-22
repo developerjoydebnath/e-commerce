@@ -35,7 +35,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
       ...item,
       // WishlistItem doesn't need quantity or selected
     });
-    removeItem(item.id);
+    removeItem(item.cartItemId);
   };
 
   if (!mounted) return null; // Avoid hydration mismatch
@@ -46,7 +46,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
       <div className="flex items-center gap-4">
         <Checkbox
           checked={item.selected}
-          onCheckedChange={() => toggleSelectItem(item.id)}
+          onCheckedChange={() => toggleSelectItem(item.cartItemId)}
           className="h-5 w-5 rounded-md"
           aria-label={`Select ${item.name}`}
         />
@@ -100,7 +100,10 @@ export default function CartItemCard({ item }: { item: CartItem }) {
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
           {/* Variants */}
           <div className="flex items-center gap-3">
-            <Select value={item.size || SIZES[0]} onValueChange={(val) => updateItemVariant(item.id, { size: val })}>
+            <Select
+              value={item.size || SIZES[0]}
+              onValueChange={(val) => updateItemVariant(item.cartItemId, { size: val })}
+            >
               <SelectTrigger className="h-9 w-[80px]">
                 <SelectValue placeholder="Size" />
               </SelectTrigger>
@@ -113,7 +116,10 @@ export default function CartItemCard({ item }: { item: CartItem }) {
               </SelectContent>
             </Select>
 
-            <Select value={item.color || COLORS[0]} onValueChange={(val) => updateItemVariant(item.id, { color: val })}>
+            <Select
+              value={item.color || COLORS[0]}
+              onValueChange={(val) => updateItemVariant(item.cartItemId, { color: val })}
+            >
               <SelectTrigger className="h-9 w-[100px]">
                 <SelectValue placeholder="Color" />
               </SelectTrigger>
@@ -131,7 +137,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
           <div className="flex items-center gap-4">
             <div className="border-input flex h-9 items-center rounded-md border bg-transparent">
               <button
-                onClick={() => decreaseQuantity(item.id)}
+                onClick={() => decreaseQuantity(item.cartItemId)}
                 disabled={item.quantity <= 1}
                 className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-9 items-center justify-center transition-colors disabled:opacity-50"
               >
@@ -141,7 +147,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
                 {item.quantity}
               </span>
               <button
-                onClick={() => increaseQuantity(item.id)}
+                onClick={() => increaseQuantity(item.cartItemId)}
                 className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-9 items-center justify-center transition-colors"
               >
                 <Plus className="h-3 w-3" />
@@ -153,7 +159,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
                 variant="outline"
                 size="icon"
                 className="text-muted-foreground hover:bg-muted h-9 w-9 border-transparent transition-colors hover:text-red-500"
-                onClick={() => removeItem(item.id)}
+                onClick={() => removeItem(item.cartItemId)}
                 title="Remove Item"
               >
                 <Trash2 className="h-4 w-4" />

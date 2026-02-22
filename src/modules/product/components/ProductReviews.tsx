@@ -1,11 +1,11 @@
 'use client';
 
+import AppPagination from '@/shared/components/ui/app-pagination';
 import { Progress } from '@/shared/components/ui/progress';
 import { cn } from '@/shared/lib/utils';
-import { CheckCircle2, ChevronLeft, ChevronRight, Star, ThumbsUp } from 'lucide-react';
+import { CheckCircle2, Star, ThumbsUp } from 'lucide-react';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import ReactPaginate from 'react-paginate';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
@@ -236,29 +236,7 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
           </div>
 
           <div className="mt-12">
-            <ReactPaginate
-              breakLabel="..."
-              nextLabel={
-                <span className="flex items-center gap-1">
-                  Next <ChevronRight className="h-4 w-4" />
-                </span>
-              }
-              onPageChange={handlePageClick}
-              pageRangeDisplayed={3}
-              pageCount={pageCount}
-              previousLabel={
-                <span className="flex items-center gap-1">
-                  <ChevronLeft className="h-4 w-4" /> Prev
-                </span>
-              }
-              renderOnZeroPageCount={null}
-              containerClassName="flex flex-wrap items-center justify-end gap-2 text-sm font-medium mt-4 sm:mt-0"
-              pageLinkClassName="flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-              activeLinkClassName="bg-primary text-primary-foreground shadow-sm"
-              previousLinkClassName="flex h-7 px-2 sm:h-9 sm:px-3 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-              nextLinkClassName="flex h-7 px-2 sm:h-9 sm:px-3 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-              disabledLinkClassName="opacity-50 cursor-not-allowed hover:bg-muted hover:text-muted-foreground"
-            />
+            <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
           </div>
         </div>
       </div>

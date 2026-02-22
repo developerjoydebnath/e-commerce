@@ -93,7 +93,7 @@ export default function CartSidebar() {
           {cartItems.length > 0 ? (
             <ul className="flex flex-col gap-6">
               {cartItems.map((item) => (
-                <li key={item.id} className="border-border/50 flex gap-4 border-b pb-6 last:border-0 last:pb-0">
+                <li key={item.cartItemId} className="border-border/50 flex gap-4 border-b pb-6 last:border-0 last:pb-0">
                   <div className="bg-muted relative h-24 w-24 shrink-0 overflow-hidden rounded-md border">
                     <div className="absolute top-0 left-0 z-10 rounded-br-md bg-black/80 px-1.5 py-0.5 text-[10px] leading-none text-white">
                       {item.brand || 'Brand'}
@@ -128,7 +128,7 @@ export default function CartSidebar() {
                     <div className="mt-3 flex items-center justify-between">
                       <div className="border-input flex h-8 items-center rounded-md border bg-transparent">
                         <button
-                          onClick={() => decreaseQuantity(item.id)}
+                          onClick={() => decreaseQuantity(item.cartItemId)}
                           disabled={item.quantity <= 1}
                           className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-8 items-center justify-center transition-colors disabled:opacity-50"
                         >
@@ -138,14 +138,14 @@ export default function CartSidebar() {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => increaseQuantity(item.id)}
+                          onClick={() => increaseQuantity(item.cartItemId)}
                           className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-8 items-center justify-center transition-colors"
                         >
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
                       <button
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeItem(item.cartItemId)}
                         className="text-muted-foreground transition-colors hover:text-red-500"
                       >
                         <Trash2 className="h-5 w-5" />
@@ -184,7 +184,7 @@ export default function CartSidebar() {
                 Checkout Now
               </Button>
             ) : (
-              <Link href="/cart" onClick={() => setIsOpen(false)} className="block w-full">
+              <Link href="/checkout" onClick={() => setIsOpen(false)} className="block w-full">
                 <Button className="w-full font-bold" size="lg">
                   Checkout Now
                 </Button>

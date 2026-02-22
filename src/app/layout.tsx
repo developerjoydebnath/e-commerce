@@ -1,3 +1,5 @@
+import CompareButton from '@/shared/components/ui/compare-button';
+import ScrollToTop from '@/shared/components/ui/scroll-to-top';
 import { TooltipProvider } from '@/shared/components/ui/tooltip';
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
@@ -30,6 +32,8 @@ export default function RootLayout({
         <TooltipProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             {children}
+            <ScrollToTop />
+            <CompareButton />
           </ThemeProvider>
         </TooltipProvider>
       </body>

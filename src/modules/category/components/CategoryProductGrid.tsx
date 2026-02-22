@@ -2,11 +2,11 @@
 
 import CategoryFiltersSidebar from '@/modules/category/components/CategoryFiltersSidebar';
 import ProductCard from '@/modules/product/components/ProductCard';
+import AppPagination from '@/shared/components/ui/app-pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/shared/components/ui/sheet';
-import { ChevronLeft, ChevronRight, LayoutGrid, List, SlidersHorizontal } from 'lucide-react';
+import { LayoutGrid, List, SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
-import ReactPaginate from 'react-paginate';
 
 import { products } from '@/shared/constants/mockData';
 
@@ -107,29 +107,7 @@ export default function CategoryProductGrid() {
       </div>
 
       {/* Pagination */}
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel={
-          <span className="flex items-center gap-1">
-            Next <ChevronRight className="h-4 w-4" />
-          </span>
-        }
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={3}
-        pageCount={pageCount}
-        previousLabel={
-          <span className="flex items-center gap-1">
-            <ChevronLeft className="h-4 w-4" /> Prev
-          </span>
-        }
-        renderOnZeroPageCount={null}
-        containerClassName="flex flex-wrap items-center justify-end gap-2 text-sm font-medium"
-        pageLinkClassName="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-        activeLinkClassName="bg-primary text-primary-foreground shadow-sm"
-        previousLinkClassName="flex h-7 px-2 sm:h-8 sm:px-3 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-        nextLinkClassName="flex h-7 px-2 sm:h-8 sm:px-3 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-        disabledLinkClassName="opacity-50 cursor-not-allowed hover:bg-muted hover:text-muted-foreground"
-      />
+      <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
     </div>
   );
 }

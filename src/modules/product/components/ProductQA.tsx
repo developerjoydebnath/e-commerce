@@ -1,8 +1,8 @@
 'use client';
 
-import { ChevronLeft, ChevronRight, MessageCircleQuestion } from 'lucide-react';
+import AppPagination from '@/shared/components/ui/app-pagination';
+import { MessageCircleQuestion } from 'lucide-react';
 import { useState } from 'react';
-import ReactPaginate from 'react-paginate';
 
 import { Product } from '@/shared/constants/mockData';
 
@@ -56,29 +56,7 @@ export default function ProductQA({ product }: ProductQAProps) {
       </div>
 
       <div className="mt-8 border-t pt-8">
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel={
-            <span className="flex items-center gap-1">
-              Next <ChevronRight className="h-4 w-4" />
-            </span>
-          }
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={3}
-          pageCount={pageCount}
-          previousLabel={
-            <span className="flex items-center gap-1">
-              <ChevronLeft className="h-4 w-4" /> Prev
-            </span>
-          }
-          renderOnZeroPageCount={null}
-          containerClassName="flex flex-wrap items-center justify-end gap-2 text-sm font-medium mt-4 sm:mt-0"
-          pageLinkClassName="flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-          activeLinkClassName="bg-primary text-primary-foreground shadow-sm"
-          previousLinkClassName="flex h-7 px-2 sm:h-9 sm:px-3 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-          nextLinkClassName="flex h-7 px-2 sm:h-9 sm:px-3 items-center justify-center rounded-md bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-          disabledLinkClassName="opacity-50 cursor-not-allowed hover:bg-muted hover:text-muted-foreground"
-        />
+        <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );

@@ -9,6 +9,9 @@ export interface WishlistItem {
   brand?: string;
   image?: string;
   slug?: string;
+  description?: string;
+  stockStatus?: string;
+  originalPrice?: number;
 }
 
 interface WishlistState {

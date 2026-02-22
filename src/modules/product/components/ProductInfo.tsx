@@ -5,6 +5,7 @@ import { cn } from '@/shared/lib/utils';
 import { useCartStore } from '@/shared/store/cartStore';
 import { useWishlistStore } from '@/shared/store/wishlistStore';
 import { Heart, Minus, Plus, Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface ProductInfoProps {
@@ -28,8 +29,9 @@ interface ProductInfoProps {
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
-  const { addItem: addCartItem } = useCartStore();
+  const { addItem: addCartItem, setIsOpen: setCartOpen } = useCartStore();
   const { addItem: addWishlistItem, removeItem: removeWishlistItem, isInWishlist } = useWishlistStore();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
@@ -59,7 +61,24 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       image: product.images?.[0] || '',
       quantity,
       slug: product.slug || String(product.id),
+      color: selectedColor,
+      size: selectedSize,
     });
+    setCartOpen(true);
+  };
+
+  const handleBuyNow = () => {
+    addCartItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.images?.[0] || '',
+      quantity,
+      slug: product.slug || String(product.id),
+      color: selectedColor,
+      size: selectedSize,
+    });
+    router.push('/checkout');
   };
 
   const isWished = mounted && isInWishlist(product.id);
@@ -189,7 +208,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </div>
 
         <div className="flex h-full flex-1 items-end gap-3 pt-1 pb-0 sm:pt-0">
-          <Button className="h-12 flex-1 rounded-md text-base" variant="default">
+          <Button className="h-12 flex-1 rounded-md text-base" variant="default" onClick={handleBuyNow}>
             Buy Now
           </Button>
           <Button

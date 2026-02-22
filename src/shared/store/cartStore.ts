@@ -4,6 +4,7 @@ import { immer } from 'zustand/middleware/immer';
 
 export interface CartItem {
   id: string | number;
+  cartItemId: string; // Unique identifier for the specific variant in the cart
   name: string;
   price: number;
   quantity: number;
@@ -21,16 +22,16 @@ export interface CartItem {
 interface CartState {
   items: CartItem[];
   isOpen: boolean;
-  addItem: (item: Omit<CartItem, 'quantity'> & { quantity?: number }) => void;
-  removeItem: (id: string | number) => void;
-  increaseQuantity: (id: string | number) => void;
-  decreaseQuantity: (id: string | number) => void;
+  addItem: (item: Omit<CartItem, 'quantity' | 'cartItemId'> & { quantity?: number }) => void;
+  removeItem: (cartItemId: string) => void;
+  increaseQuantity: (cartItemId: string) => void;
+  decreaseQuantity: (cartItemId: string) => void;
   clearCart: () => void;
   setIsOpen: (isOpen: boolean) => void;
-  toggleSelectItem: (id: string | number) => void;
+  toggleSelectItem: (cartItemId: string) => void;
   selectAll: (selected: boolean) => void;
   removeSelectedItems: () => void;
-  updateItemVariant: (id: string | number, variant: { color?: string; size?: string }) => void;
+  updateItemVariant: (cartItemId: string, variant: { color?: string; size?: string }) => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -40,32 +41,34 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
       addItem: (item) =>
         set((state) => {
-          state.isOpen = true;
-          // When adding an item, find by id AND color AND size to treat different variants as different cart items if needed,
-          // but for now let's just use id to maintain backward compatibility with current implementations.
-          // In a fully featured app, you might use a composite key or uniquely generated cartItemId.
-          const existingItem = state.items.find((i) => i.id === item.id);
+          // Generate a unique cartItemId based on id, color, and size
+          const colorKey = item.color || 'default';
+          const sizeKey = item.size || 'default';
+          const cartItemId = `${item.id}-${colorKey}-${sizeKey}`;
+
+          const existingItem = state.items.find((i) => i.cartItemId === cartItemId);
           const qtyToAdd = item.quantity || 1;
+
           if (existingItem) {
             existingItem.quantity += qtyToAdd;
           } else {
-            state.items.push({ ...item, quantity: qtyToAdd, selected: true });
+            state.items.push({ ...item, cartItemId, quantity: qtyToAdd, selected: true });
           }
         }),
-      removeItem: (id) =>
+      removeItem: (cartItemId) =>
         set((state) => {
-          state.items = state.items.filter((i) => i.id !== id);
+          state.items = state.items.filter((i) => i.cartItemId !== cartItemId);
         }),
-      increaseQuantity: (id) =>
+      increaseQuantity: (cartItemId) =>
         set((state) => {
-          const item = state.items.find((i) => i.id === id);
+          const item = state.items.find((i) => i.cartItemId === cartItemId);
           if (item) {
             item.quantity += 1;
           }
         }),
-      decreaseQuantity: (id) =>
+      decreaseQuantity: (cartItemId) =>
         set((state) => {
-          const item = state.items.find((i) => i.id === id);
+          const item = state.items.find((i) => i.cartItemId === cartItemId);
           if (item && item.quantity > 1) {
             item.quantity -= 1;
           }
@@ -78,9 +81,9 @@ export const useCartStore = create<CartState>()(
         set((state) => {
           state.isOpen = isOpen;
         }),
-      toggleSelectItem: (id) =>
+      toggleSelectItem: (cartItemId) =>
         set((state) => {
-          const item = state.items.find((i) => i.id === id);
+          const item = state.items.find((i) => i.cartItemId === cartItemId);
           if (item) {
             item.selected = !item.selected;
           }
@@ -95,12 +98,29 @@ export const useCartStore = create<CartState>()(
         set((state) => {
           state.items = state.items.filter((i) => !i.selected);
         }),
-      updateItemVariant: (id, variant) =>
+      updateItemVariant: (cartItemId, variant) =>
         set((state) => {
-          const item = state.items.find((i) => i.id === id);
-          if (item) {
-            if (variant.color !== undefined) item.color = variant.color;
-            if (variant.size !== undefined) item.size = variant.size;
+          const itemIndex = state.items.findIndex((i) => i.cartItemId === cartItemId);
+          if (itemIndex !== -1) {
+            const item = state.items[itemIndex];
+            const newColor = variant.color !== undefined ? variant.color : item.color;
+            const newSize = variant.size !== undefined ? variant.size : item.size;
+
+            const newCartItemId = `${item.id}-${newColor || 'default'}-${newSize || 'default'}`;
+
+            // If the updated variant already exists in the cart, merge them
+            const existingSameVariantIndex = state.items.findIndex(
+              (i, idx) => i.cartItemId === newCartItemId && idx !== itemIndex
+            );
+
+            if (existingSameVariantIndex !== -1) {
+              state.items[existingSameVariantIndex].quantity += item.quantity;
+              state.items.splice(itemIndex, 1);
+            } else {
+              item.color = newColor;
+              item.size = newSize;
+              item.cartItemId = newCartItemId;
+            }
           }
         }),
     })),

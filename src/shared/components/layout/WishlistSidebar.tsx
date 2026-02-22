@@ -167,11 +167,20 @@ export default function WishlistSidebar() {
         </div>
 
         <DrawerFooter className="bg-background border-t px-6 py-4">
-          <DrawerClose asChild>
-            <Button variant="outline" className="w-full font-bold" size="lg">
-              Continue Shopping
-            </Button>
-          </DrawerClose>
+          <div className="flex flex-col gap-3">
+            {wishlistItems.length > 0 ? (
+              <Link href="/wishlist" onClick={() => setIsOpen(false)} className="block w-full">
+                <Button className="w-full font-bold" size="lg">
+                  View Full Wishlist
+                </Button>
+              </Link>
+            ) : null}
+            <DrawerClose asChild>
+              <Button variant="outline" className="w-full font-bold" size="lg">
+                Continue Shopping
+              </Button>
+            </DrawerClose>
+          </div>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
