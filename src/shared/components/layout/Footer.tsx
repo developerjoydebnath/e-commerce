@@ -16,13 +16,13 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-muted text-foreground pt-16">
+    <footer className="bg-primary pt-16 text-white">
       <div className="container mx-auto px-4 pb-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Column 1: About */}
           <div className="flex flex-col gap-6">
             <h3 className="text-lg font-bold tracking-wider uppercase">About</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-white/90">
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
               industry&apos;s standard dummy text ever since the 1500s
             </p>
@@ -32,7 +32,7 @@ export default function Footer() {
               <div className="flex gap-2">
                 {/* Placeholders for payment methods (e.g., bkash, ssl commerz, visa, nagad) */}
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="bg-foreground/10 h-8 w-12 rounded object-cover" />
+                  <div key={i} className="h-8 w-12 rounded bg-white/20 object-cover" />
                 ))}
               </div>
               <div className="flex items-center gap-2 text-sm font-medium">
@@ -43,8 +43,8 @@ export default function Footer() {
               {/* App Stores */}
               <div className="flex gap-4 pt-2">
                 {/* Placeholders for Google Play and App Store */}
-                <div className="bg-foreground/10 h-10 w-32 rounded object-cover" />
-                <div className="bg-foreground/10 h-10 w-32 rounded object-cover" />
+                <div className="h-10 w-32 rounded bg-white/20 object-cover" />
+                <div className="h-10 w-32 rounded bg-white/20 object-cover" />
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function Footer() {
                 'About Us',
               ].map((item, index) => (
                 <li key={index}>
-                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors hover:underline">
+                  <Link href="#" className="text-white/90 transition-colors hover:text-white hover:underline">
                     <span className="mr-2">•</span>
                     {item}
                   </Link>
@@ -105,7 +105,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-4 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-5 w-5 shrink-0" />
-                <span className="text-muted-foreground">
+                <span className="text-white/90">
                   102/C Green Road, Dhanmondi,
                   <br />
                   Dhaka-1212
@@ -113,11 +113,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="h-4 w-4 shrink-0" />
-                <span className="text-muted-foreground">contact@gmail.com</span>
+                <span className="text-white/90">contact@gmail.com</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0" />
-                <span className="text-muted-foreground">+8801700000000</span>
+                <span className="text-white/90">+8801700000000</span>
               </li>
             </ul>
 
@@ -125,37 +125,43 @@ export default function Footer() {
             <div className="flex gap-2 pt-2">
               <Link
                 href="#"
-                className="bg-foreground/5 hover:bg-foreground/10 flex h-8 w-8 items-center justify-center rounded transition-colors"
+                aria-label="Facebook"
+                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
               >
                 <Facebook className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
-                className="bg-foreground/5 hover:bg-foreground/10 flex h-8 w-8 items-center justify-center rounded transition-colors"
+                aria-label="Instagram"
+                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
               >
                 <Instagram className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
-                className="bg-foreground/5 hover:bg-foreground/10 flex h-8 w-8 items-center justify-center rounded transition-colors"
+                aria-label="Twitter"
+                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
               >
                 <Twitter className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
-                className="bg-foreground/5 hover:bg-foreground/10 flex h-8 w-8 items-center justify-center rounded transition-colors"
+                aria-label="Youtube"
+                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
               >
                 <Youtube className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
-                className="bg-foreground/5 hover:bg-foreground/10 flex h-8 w-8 items-center justify-center rounded transition-colors"
+                aria-label="WhatsApp"
+                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
               >
                 <MessageCircle className="h-4 w-4" />
               </Link>
               <Link
                 href="#"
-                className="bg-foreground/5 hover:bg-foreground/10 flex h-8 w-8 items-center justify-center rounded transition-colors"
+                aria-label="Linkedin"
+                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
               >
                 <Linkedin className="h-4 w-4" />
               </Link>
@@ -167,11 +173,11 @@ export default function Footer() {
                 <Input
                   type="email"
                   placeholder="Type Your Email"
-                  className="border-foreground/20 focus-visible:ring-primary h-10 rounded-full bg-transparent pr-24"
+                  className="h-10 rounded-full border-white/20 bg-transparent pr-24 text-white placeholder:text-white/50 focus-visible:ring-white"
                 />
                 <Button
                   type="submit"
-                  className="bg-foreground/15 text-foreground hover:bg-foreground/25 border-foreground/20 absolute top-0 right-0 h-10 rounded-full border border-l-0 px-6 font-medium"
+                  className="absolute top-0 right-0 h-10 rounded-full border border-l-0 border-white/20 bg-white/15 px-6 font-medium text-white hover:bg-white/25 hover:text-white"
                   variant="ghost"
                 >
                   Subscribe
@@ -183,9 +189,9 @@ export default function Footer() {
       </div>
 
       {/* Copyright Bar */}
-      <div className="bg-foreground/5 border-foreground/10 border-t py-4">
+      <div className="border-t border-white/10 bg-black/10 py-4">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-muted-foreground text-sm">Copyright @ 2024 All rights reserves by Codenixx.com</p>
+          <p className="text-sm text-white/90">Copyright @ 2024 All rights reserves by Codenixx.com</p>
         </div>
       </div>
     </footer>

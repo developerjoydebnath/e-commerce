@@ -55,14 +55,14 @@ export interface Specification {
 
 export interface Variant {
   id: string;
-  color: string;
-  size: string;
-  variantImage?: string;
   sku: string;
-  stockStatus: string;
+  attributes: Record<string, string>;
   price: number;
-  discount?: number;
-  images: string[];
+  originalPrice?: number;
+  stock: number;
+  inStock: boolean;
+  image: string;
+  images?: string[];
 }
 
 export interface Coupon {
@@ -87,13 +87,14 @@ export interface Product {
   id: string;
   name: string;
   slug: string;
-  price: number;
+  hasVariants: boolean;
+  basePrice: number;
   originalPrice?: number;
   sku: string;
   inStock: boolean;
   stockStatus: string;
   discounted?: number; // percentage
-  discount?: number;
+  discount?: string | number;
   ratings: RatingStats;
   rating?: number; // legacy fallback
   reviews: Review[];
@@ -101,8 +102,13 @@ export interface Product {
   images: string[]; // gallery images
   brand: Brand;
   categories: Category[];
+  price: number;
   colors: string[];
   sizes: string[];
+  attributes: {
+    name: string;
+    values: string[];
+  }[];
   variants: Variant[];
   tags: string[];
   specifications: Specification[];
@@ -149,24 +155,57 @@ export interface RawRating {
   fiveStar: number;
 }
 
+export interface SizeChartEntry {
+  size: string;
+  us: string;
+  bust: string;
+  waist: string;
+  lowHip: string;
+}
+
+export interface SizeGuide {
+  title: string;
+  chart: SizeChartEntry[];
+  measuringTips: {
+    title: string;
+    description: string;
+  }[];
+}
+
 export interface RawProduct {
   id: string;
   name: string;
   slug: string;
-  price: number;
+  basePrice: number;
   originalPrice?: number;
-  sku: string;
-  inStock: boolean;
-  stockStatus: string;
+  hasVariants: boolean;
+  sku?: string;
+  inStock?: boolean;
+  stockStatus?: string;
   discounted?: number;
   discount?: number;
   rating?: number;
-  image: string;
-  images: string[];
+  image?: string;
+  images?: string[];
+  attributes: {
+    name: string;
+    values: string[];
+  }[];
+  variants: {
+    id: string;
+    sku: string;
+    attributes: Record<string, string>;
+    price: number;
+    originalPrice?: number;
+    stock: number;
+    inStock: boolean;
+    image: string;
+    images?: string[];
+  }[];
   brandId: string;
   categoryIds: string[];
-  colors: string[];
-  sizes: string[];
+  colors?: string[];
+  sizes?: string[];
   tags: string[];
   specifications: Specification[];
   couponIds?: string[];
@@ -4417,481 +4456,1758 @@ export const rawProducts: RawProduct[] = [
     id: 'prod_1',
     name: 'Amazing Product 1',
     slug: 'amazing-product-1',
-    price: 821.1899999999999,
-    originalPrice: 883,
-    sku: 'SKU-1000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 7,
-    discount: 7,
-    rating: 4.4,
-    image: '/images/products/product-1a.png',
-    images: ['/images/products/product-1a.png', '/images/products/product-1b.png'],
-    brandId: 'brand_1',
-    categoryIds: ['cat_1', 'cat_2'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S', 'M', 'L'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 1. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '63g',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
       {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M', 'L'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 1. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_1_1',
+        sku: 'SKU-1000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 821.19,
+        originalPrice: 883,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+        images: ['/images/products/product-1a.png', '/images/products/product-1b.png'],
+      },
+      {
+        id: 'var_1_2',
+        sku: 'SKU-1000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 821.19,
+        originalPrice: 883,
+        stock: 20,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+        images: ['/images/products/product-1a.png'],
+      },
+      {
+        id: 'var_1_3',
+        sku: 'SKU-1000-BLK-L',
+        attributes: { color: 'Black', size: 'L' },
+        price: 831.19,
+        originalPrice: 893,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_1_4',
+        sku: 'SKU-1000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 821.19,
+        originalPrice: 883,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+        images: ['/images/products/product-1b.png'],
+      },
+      {
+        id: 'var_1_5',
+        sku: 'SKU-1000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 821.19,
+        originalPrice: 883,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+      {
+        id: 'var_1_6',
+        sku: 'SKU-1000-WHT-L',
+        attributes: { color: 'White', size: 'L' },
+        price: 841.19,
+        originalPrice: 903,
+        stock: 8,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+    ],
+
+    brandId: 'brand_1',
+    categoryIds: ['cat_1', 'cat_2'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '63g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_1'],
+    rating: 4.4,
   },
+
   {
     id: 'prod_2',
     name: 'Amazing Product 2',
     slug: 'amazing-product-2',
-    price: 95.68,
-    originalPrice: 104,
-    sku: 'SKU-2000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 8,
-    discount: 8,
-    rating: 3.3,
-    image: '/images/products/product-2a.png',
-    images: ['/images/products/product-2a.png', '/images/products/product-2b.png'],
-    brandId: 'brand_2',
-    categoryIds: ['cat_2', 'cat_3'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 2. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '91g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 2. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_2_1',
+        sku: 'SKU-2000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 95.68,
+        originalPrice: 104,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+        images: ['/images/products/product-2a.png', '/images/products/product-2b.png'],
+      },
+      {
+        id: 'var_2_2',
+        sku: 'SKU-2000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 95.68,
+        originalPrice: 104,
+        stock: 0,
+        inStock: false,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_2_3',
+        sku: 'SKU-2000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 97.68,
+        originalPrice: 106,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-2b.png',
+        images: ['/images/products/product-2b.png'],
+      },
+    ],
+
+    brandId: 'brand_2',
+    categoryIds: ['cat_2', 'cat_3'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '91g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_2'],
+    rating: 3.3,
   },
+
   {
     id: 'prod_3',
     name: 'Amazing Product 3',
     slug: 'amazing-product-3',
-    price: 547.0799999999999,
-    originalPrice: 582,
-    sku: 'SKU-3000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 6,
-    discount: 6,
-    rating: 4.1,
-    image: '/images/products/product-3a.png',
-    images: ['/images/products/product-3a.png', '/images/products/product-3b.png'],
-    brandId: 'brand_3',
-    categoryIds: ['cat_3', 'cat_4'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 3. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '57g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 3. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_3_1',
+        sku: 'SKU-3000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 547.08,
+        originalPrice: 582,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+        images: ['/images/products/product-3a.png', '/images/products/product-3b.png'],
+      },
+      {
+        id: 'var_3_2',
+        sku: 'SKU-3000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 557.08,
+        originalPrice: 592,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-3b.png',
+        images: ['/images/products/product-3b.png'],
+      },
+    ],
+
+    brandId: 'brand_3',
+    categoryIds: ['cat_3', 'cat_4'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '57g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_3'],
+    rating: 4.1,
   },
+
   {
     id: 'prod_4',
     name: 'Amazing Product 4',
     slug: 'amazing-product-4',
-    price: 425.83,
-    originalPrice: 439,
-    sku: 'SKU-4000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 3,
-    discount: 3,
-    rating: 4.1,
-    image: '/images/products/product-4a.png',
-    images: ['/images/products/product-4a.png', '/images/products/product-4b.png'],
-    brandId: 'brand_4',
-    categoryIds: ['cat_4', 'cat_5'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 4. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '81g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 4. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_4_1',
+        sku: 'SKU-4000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 425.83,
+        originalPrice: 439,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+        images: ['/images/products/product-4a.png', '/images/products/product-4b.png'],
+      },
+      {
+        id: 'var_4_2',
+        sku: 'SKU-4000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 425.83,
+        originalPrice: 439,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+        images: [],
+      },
+      {
+        id: 'var_4_3',
+        sku: 'SKU-4000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 435.83,
+        originalPrice: 449,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-4b.png',
+        images: [],
+      },
+      {
+        id: 'var_4_4',
+        sku: 'SKU-4000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 435.83,
+        originalPrice: 449,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-4b.png',
+      },
+    ],
+
+    brandId: 'brand_4',
+    categoryIds: ['cat_4', 'cat_5'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '81g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_4'],
+    rating: 4.1,
   },
+
   {
     id: 'prod_5',
     name: 'Amazing Product 5',
     slug: 'amazing-product-5',
-    price: 733.77,
-    originalPrice: 789,
-    sku: 'SKU-5000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 7,
-    discount: 7,
-    rating: 3.4,
-    image: '/images/products/product-5a.png',
-    images: ['/images/products/product-5a.png', '/images/products/product-5b.png'],
-    brandId: 'brand_5',
-    categoryIds: ['cat_5', 'cat_6'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S', 'M'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 5. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '55g',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
       {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 5. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_5_1',
+        sku: 'SKU-5000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 733.77,
+        originalPrice: 789,
+        stock: 14,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+        images: ['/images/products/product-5a.png', '/images/products/product-5b.png'],
+      },
+      {
+        id: 'var_5_2',
+        sku: 'SKU-5000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 733.77,
+        originalPrice: 789,
+        stock: 20,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_5_3',
+        sku: 'SKU-5000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 743.77,
+        originalPrice: 799,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+      {
+        id: 'var_5_4',
+        sku: 'SKU-5000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 743.77,
+        originalPrice: 799,
+        stock: 8,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+    ],
+
+    brandId: 'brand_5',
+    categoryIds: ['cat_5', 'cat_6'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '55g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_5'],
+    rating: 3.4,
   },
+
   {
     id: 'prod_6',
     name: 'Amazing Product 6',
     slug: 'amazing-product-6',
-    price: 268.96000000000004,
-    originalPrice: 328,
-    sku: 'SKU-6000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 18,
-    discount: 18,
-    rating: 4.3,
-    image: '/images/products/product-1a.png',
-    images: ['/images/products/product-1a.png', '/images/products/product-1b.png'],
-    brandId: 'brand_6',
-    categoryIds: ['cat_6', 'cat_7'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S', 'M'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 6. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '8g',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
       {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 6. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_6_1',
+        sku: 'SKU-6000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 268.96,
+        originalPrice: 328,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+        images: ['/images/products/product-1a.png', '/images/products/product-1b.png'],
+      },
+      {
+        id: 'var_6_2',
+        sku: 'SKU-6000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 268.96,
+        originalPrice: 328,
+        stock: 30,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_6_3',
+        sku: 'SKU-6000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 278.96,
+        originalPrice: 338,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+      {
+        id: 'var_6_4',
+        sku: 'SKU-6000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 278.96,
+        originalPrice: 338,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+    ],
+
+    brandId: 'brand_6',
+    categoryIds: ['cat_6', 'cat_7'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '8g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_6'],
+    rating: 4.3,
   },
+
   {
     id: 'prod_7',
     name: 'Amazing Product 7',
     slug: 'amazing-product-7',
-    price: 287.82000000000005,
-    originalPrice: 351,
-    sku: 'SKU-7000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 18,
-    discount: 18,
-    rating: 4.9,
-    image: '/images/products/product-2a.png',
-    images: ['/images/products/product-2a.png', '/images/products/product-2b.png'],
-    brandId: 'brand_7',
-    categoryIds: ['cat_7', 'cat_8'],
-    colors: ['#000000'],
-    sizes: ['S', 'M', 'L'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 7. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '99g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M', 'L'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 7. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_7_1',
+        sku: 'SKU-7000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 287.82,
+        originalPrice: 351,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+        images: ['/images/products/product-2a.png', '/images/products/product-2b.png'],
+      },
+      {
+        id: 'var_7_2',
+        sku: 'SKU-7000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 287.82,
+        originalPrice: 351,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_7_3',
+        sku: 'SKU-7000-BLK-L',
+        attributes: { color: 'Black', size: 'L' },
+        price: 297.82,
+        originalPrice: 361,
+        stock: 14,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+    ],
+
+    brandId: 'brand_7',
+    categoryIds: ['cat_7', 'cat_8'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '99g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_7'],
+    rating: 4.9,
   },
+
   {
     id: 'prod_8',
     name: 'Amazing Product 8',
     slug: 'amazing-product-8',
-    price: 82.49,
-    originalPrice: 113,
-    sku: 'SKU-8000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 27,
-    discount: 27,
-    rating: 4,
-    image: '/images/products/product-3a.png',
-    images: ['/images/products/product-3a.png', '/images/products/product-3b.png'],
-    brandId: 'brand_8',
-    categoryIds: ['cat_8', 'cat_9'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 8. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '83g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 8. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_8_1',
+        sku: 'SKU-8000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 82.49,
+        originalPrice: 113,
+        stock: 32,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+        images: ['/images/products/product-3a.png', '/images/products/product-3b.png'],
+      },
+      {
+        id: 'var_8_2',
+        sku: 'SKU-8000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 84.49,
+        originalPrice: 115,
+        stock: 28,
+        inStock: true,
+        image: '/images/products/product-3b.png',
+      },
+    ],
+
+    brandId: 'brand_8',
+    categoryIds: ['cat_8', 'cat_9'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '83g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_8'],
+    rating: 4.0,
   },
+
   {
     id: 'prod_9',
     name: 'Amazing Product 9',
     slug: 'amazing-product-9',
-    price: 634.5,
-    originalPrice: 846,
-    sku: 'SKU-9000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 25,
-    discount: 25,
-    rating: 3.3,
-    image: '/images/products/product-4a.png',
-    images: ['/images/products/product-4a.png', '/images/products/product-4b.png'],
-    brandId: 'brand_9',
-    categoryIds: ['cat_9', 'cat_10'],
-    colors: ['#000000'],
-    sizes: ['S', 'M', 'L', 'XL'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 9. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '74g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 9. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_9_1',
+        sku: 'SKU-9000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 634.5,
+        originalPrice: 846,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+        images: ['/images/products/product-4a.png', '/images/products/product-4b.png'],
+      },
+      {
+        id: 'var_9_2',
+        sku: 'SKU-9000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 634.5,
+        originalPrice: 846,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+      },
+      {
+        id: 'var_9_3',
+        sku: 'SKU-9000-BLK-L',
+        attributes: { color: 'Black', size: 'L' },
+        price: 644.5,
+        originalPrice: 856,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+      },
+      {
+        id: 'var_9_4',
+        sku: 'SKU-9000-BLK-XL',
+        attributes: { color: 'Black', size: 'XL' },
+        price: 654.5,
+        originalPrice: 866,
+        stock: 6,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+      },
+    ],
+
+    brandId: 'brand_9',
+    categoryIds: ['cat_9', 'cat_10'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '74g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_9'],
+    rating: 3.3,
   },
+
   {
     id: 'prod_10',
     name: 'Amazing Product 10',
     slug: 'amazing-product-10',
-    price: 436.8,
-    originalPrice: 480,
-    sku: 'SKU-10000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 9,
-    discount: 9,
-    rating: 3.7,
-    image: '/images/products/product-5a.png',
-    images: ['/images/products/product-5a.png', '/images/products/product-5b.png'],
-    brandId: 'brand_10',
-    categoryIds: ['cat_10', 'cat_11'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S', 'M'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 10. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '85g',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
       {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 10. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_10_1',
+        sku: 'SKU-10000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 436.8,
+        originalPrice: 480,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+        images: ['/images/products/product-5a.png', '/images/products/product-5b.png'],
+      },
+      {
+        id: 'var_10_2',
+        sku: 'SKU-10000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 436.8,
+        originalPrice: 480,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_10_3',
+        sku: 'SKU-10000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 446.8,
+        originalPrice: 490,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+      {
+        id: 'var_10_4',
+        sku: 'SKU-10000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 446.8,
+        originalPrice: 490,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+    ],
+
+    brandId: 'brand_10',
+    categoryIds: ['cat_10', 'cat_11'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '85g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_10'],
+    rating: 3.7,
   },
+
   {
     id: 'prod_11',
     name: 'Amazing Product 11',
     slug: 'amazing-product-11',
-    price: 384.8,
-    originalPrice: 481,
-    sku: 'SKU-11000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 20,
-    discount: 20,
-    rating: 4.4,
-    image: '/images/products/product-1a.png',
-    images: ['/images/products/product-1a.png', '/images/products/product-1b.png'],
-    brandId: 'brand_11',
-    categoryIds: ['cat_11', 'cat_12'],
-    colors: ['#000000', '#FFFFFF', '#FF0000'],
-    sizes: ['S', 'M', 'L'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 11. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '53g',
+        name: 'Color',
+        values: ['Black', 'White', 'Red'],
       },
       {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M', 'L'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 11. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_11_1',
+        sku: 'SKU-11000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 384.8,
+        originalPrice: 481,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+        images: ['/images/products/product-1a.png', '/images/products/product-1b.png'],
+      },
+      {
+        id: 'var_11_2',
+        sku: 'SKU-11000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 384.8,
+        originalPrice: 481,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_11_3',
+        sku: 'SKU-11000-BLK-L',
+        attributes: { color: 'Black', size: 'L' },
+        price: 394.8,
+        originalPrice: 491,
+        stock: 14,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_11_4',
+        sku: 'SKU-11000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 384.8,
+        originalPrice: 481,
+        stock: 20,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+      {
+        id: 'var_11_5',
+        sku: 'SKU-11000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 384.8,
+        originalPrice: 481,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+      {
+        id: 'var_11_6',
+        sku: 'SKU-11000-RED-S',
+        attributes: { color: 'Red', size: 'S' },
+        price: 394.8,
+        originalPrice: 491,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-1c.png',
+      },
+      {
+        id: 'var_11_7',
+        sku: 'SKU-11000-RED-M',
+        attributes: { color: 'Red', size: 'M' },
+        price: 394.8,
+        originalPrice: 491,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-1c.png',
+      },
+      {
+        id: 'var_11_8',
+        sku: 'SKU-11000-RED-L',
+        attributes: { color: 'Red', size: 'L' },
+        price: 404.8,
+        originalPrice: 501,
+        stock: 5,
+        inStock: true,
+        image: '/images/products/product-1c.png',
+      },
+    ],
+
+    brandId: 'brand_11',
+    categoryIds: ['cat_11', 'cat_12'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '53g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_11'],
+    rating: 4.4,
   },
+
   {
     id: 'prod_12',
     name: 'Amazing Product 12',
     slug: 'amazing-product-12',
-    price: 934.11,
-    originalPrice: 963,
-    sku: 'SKU-12000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 3,
-    discount: 3,
-    rating: 4.3,
-    image: '/images/products/product-2a.png',
-    images: ['/images/products/product-2a.png', '/images/products/product-2b.png'],
-    brandId: 'brand_12',
-    categoryIds: ['cat_12', 'cat_13'],
-    colors: ['#000000', '#FFFFFF'],
-    sizes: ['S', 'M', 'L', 'XL'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 12. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '51g',
+        name: 'Color',
+        values: ['Black', 'White'],
       },
       {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M', 'L', 'XL'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 12. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_12_1',
+        sku: 'SKU-12000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 934.11,
+        originalPrice: 963,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+        images: ['/images/products/product-2a.png', '/images/products/product-2b.png'],
+      },
+      {
+        id: 'var_12_2',
+        sku: 'SKU-12000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 934.11,
+        originalPrice: 963,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_12_3',
+        sku: 'SKU-12000-BLK-L',
+        attributes: { color: 'Black', size: 'L' },
+        price: 944.11,
+        originalPrice: 973,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_12_4',
+        sku: 'SKU-12000-BLK-XL',
+        attributes: { color: 'Black', size: 'XL' },
+        price: 954.11,
+        originalPrice: 983,
+        stock: 8,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_12_5',
+        sku: 'SKU-12000-WHT-S',
+        attributes: { color: 'White', size: 'S' },
+        price: 934.11,
+        originalPrice: 963,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-2b.png',
+      },
+      {
+        id: 'var_12_6',
+        sku: 'SKU-12000-WHT-M',
+        attributes: { color: 'White', size: 'M' },
+        price: 934.11,
+        originalPrice: 963,
+        stock: 14,
+        inStock: true,
+        image: '/images/products/product-2b.png',
+      },
+      {
+        id: 'var_12_7',
+        sku: 'SKU-12000-WHT-L',
+        attributes: { color: 'White', size: 'L' },
+        price: 944.11,
+        originalPrice: 973,
+        stock: 9,
+        inStock: true,
+        image: '/images/products/product-2b.png',
+      },
+    ],
+
+    brandId: 'brand_12',
+    categoryIds: ['cat_12', 'cat_13'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '51g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_12'],
+    rating: 4.3,
   },
+
   {
     id: 'prod_13',
     name: 'Amazing Product 13',
     slug: 'amazing-product-13',
-    price: 355.83,
-    originalPrice: 409,
-    sku: 'SKU-13000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 13,
-    discount: 13,
-    rating: 3.1,
-    image: '/images/products/product-3a.png',
-    images: ['/images/products/product-3a.png', '/images/products/product-3b.png'],
-    brandId: 'brand_13',
-    categoryIds: ['cat_13', 'cat_14'],
-    colors: ['#000000'],
-    sizes: ['S'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 13. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '43g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 13. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_13_1',
+        sku: 'SKU-13000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 355.83,
+        originalPrice: 409,
+        stock: 30,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+        images: ['/images/products/product-3a.png', '/images/products/product-3b.png'],
+      },
+    ],
+
+    brandId: 'brand_13',
+    categoryIds: ['cat_13', 'cat_14'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '43g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_13'],
+    rating: 3.1,
   },
+
   {
     id: 'prod_14',
     name: 'Amazing Product 14',
     slug: 'amazing-product-14',
-    price: 121.94,
-    originalPrice: 134,
-    sku: 'SKU-14000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 9,
-    discount: 9,
-    rating: 4.8,
-    image: '/images/products/product-4a.png',
-    images: ['/images/products/product-4a.png', '/images/products/product-4b.png'],
-    brandId: 'brand_14',
-    categoryIds: ['cat_14', 'cat_15'],
-    colors: ['#000000'],
-    sizes: ['S', 'M'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 14. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '33g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 14. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_14_1',
+        sku: 'SKU-14000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 121.94,
+        originalPrice: 134,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+        images: ['/images/products/product-4a.png', '/images/products/product-4b.png'],
+      },
+      {
+        id: 'var_14_2',
+        sku: 'SKU-14000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 131.94,
+        originalPrice: 144,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+      },
+    ],
+
+    brandId: 'brand_14',
+    categoryIds: ['cat_14', 'cat_15'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '33g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_14'],
+    rating: 4.8,
   },
+
   {
     id: 'prod_15',
     name: 'Amazing Product 15',
     slug: 'amazing-product-15',
-    price: 736.3,
-    originalPrice: 995,
-    sku: 'SKU-15000',
-    inStock: true,
-    stockStatus: 'In Stock',
-    discounted: 26,
-    discount: 26,
-    rating: 4.7,
-    image: '/images/products/product-5a.png',
-    images: ['/images/products/product-5a.png', '/images/products/product-5b.png'],
-    brandId: 'brand_15',
-    categoryIds: ['cat_15', 'cat_1'],
-    colors: ['#000000'],
-    sizes: ['S', 'M'],
-    tags: ['Featured', 'Trending', 'New'],
-    specifications: [
+    description: 'This is the amazing description for Amazing Product 15. It has all the features you will ever need.',
+    hasVariants: true,
+    basePrice: 0,
+
+    attributes: [
       {
-        key: 'Weight',
-        value: '10g',
-      },
-      {
-        key: 'Material',
-        value: 'Premium',
+        name: 'Size',
+        values: ['S', 'M'],
       },
     ],
-    description: 'This is the amazing description for Amazing Product 15. It has all the features you will ever need.',
+
+    variants: [
+      {
+        id: 'var_15_1',
+        sku: 'SKU-15000-BLK-S',
+        attributes: { color: 'Black', size: 'S' },
+        price: 736.3,
+        originalPrice: 995,
+        stock: 14,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+        images: ['/images/products/product-5a.png', '/images/products/product-5b.png'],
+      },
+      {
+        id: 'var_15_2',
+        sku: 'SKU-15000-BLK-M',
+        attributes: { color: 'Black', size: 'M' },
+        price: 736.3,
+        originalPrice: 995,
+        stock: 20,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+    ],
+
+    brandId: 'brand_15',
+    categoryIds: ['cat_15', 'cat_1'],
+    tags: ['Featured', 'Trending', 'New'],
+    specifications: [
+      { key: 'Weight', value: '10g' },
+      { key: 'Material', value: 'Premium' },
+    ],
     couponIds: ['coup_15'],
+    rating: 4.7,
+  },
+  {
+    id: 'prod_16',
+    name: 'Sony WH-1000XM5 Wireless Headphones',
+    slug: 'sony-wh-1000xm5',
+    description: 'Industry-leading noise canceling wireless headphones with premium sound quality.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [{ name: 'Color', values: ['Black', 'Silver'] }],
+    variants: [
+      {
+        id: 'var_16_1',
+        sku: 'SONY-WH1000XM5-BLK',
+        attributes: { color: 'Black' },
+        price: 399,
+        originalPrice: 449,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_16_2',
+        sku: 'SONY-WH1000XM5-SLV',
+        attributes: { color: 'Silver' },
+        price: 399,
+        originalPrice: 449,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+    ],
+    brandId: 'brand_1',
+    categoryIds: ['cat_1'],
+    tags: ['Electronics', 'Audio'],
+    specifications: [
+      { key: 'Connectivity', value: 'Bluetooth 5.2' },
+      { key: 'Battery Life', value: '30 Hours' },
+    ],
+    couponIds: [],
+    rating: 4.8,
+  },
+
+  {
+    id: 'prod_17',
+    name: 'Apple iPhone 15 Pro',
+    slug: 'iphone-15-pro',
+    description: 'Latest generation smartphone with A17 chip and advanced camera system.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Storage', values: ['128GB', '256GB'] },
+      { name: 'Color', values: ['Black', 'White'] },
+    ],
+    variants: [
+      {
+        id: 'var_17_1',
+        sku: 'IP15P-128-BLK',
+        attributes: { storage: '128GB', color: 'Black' },
+        price: 999,
+        originalPrice: 1099,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_17_2',
+        sku: 'IP15P-256-WHT',
+        attributes: { storage: '256GB', color: 'White' },
+        price: 1099,
+        originalPrice: 1199,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-2b.png',
+      },
+    ],
+    brandId: 'brand_3',
+    categoryIds: ['cat_1'],
+    tags: ['Smartphone'],
+    specifications: [
+      { key: 'Display', value: '6.1 inch OLED' },
+      { key: 'Chip', value: 'A17 Pro' },
+    ],
+    couponIds: [],
+    rating: 4.9,
+  },
+
+  {
+    id: 'prod_18',
+    name: 'Nike Air Max 270',
+    slug: 'nike-air-max-270',
+    description: 'Comfortable and stylish everyday sneakers.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Size', values: ['40', '41', '42'] },
+      { name: 'Color', values: ['Black', 'White'] },
+    ],
+    variants: [
+      {
+        id: 'var_18_1',
+        sku: 'AM270-40-BLK',
+        attributes: { size: '40', color: 'Black' },
+        price: 150,
+        originalPrice: 180,
+        stock: 20,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+      },
+      {
+        id: 'var_18_2',
+        sku: 'AM270-41-WHT',
+        attributes: { size: '41', color: 'White' },
+        price: 150,
+        originalPrice: 180,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-3b.png',
+      },
+    ],
+    brandId: 'brand_7',
+    categoryIds: ['cat_2'],
+    tags: ['Shoes'],
+    specifications: [{ key: 'Material', value: 'Mesh & Rubber' }],
+    couponIds: [],
+    rating: 4.6,
+  },
+
+  {
+    id: 'prod_19',
+    name: 'Samsung 55" 4K Smart TV',
+    slug: 'samsung-55-4k-tv',
+    description: 'Ultra HD Smart TV with HDR and streaming apps.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [{ name: 'Size', values: ['55 inch', '65 inch'] }],
+    variants: [
+      {
+        id: 'var_19_1',
+        sku: 'SAMTV-55',
+        attributes: { size: '55 inch' },
+        price: 799,
+        originalPrice: 899,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-4a.png',
+      },
+      {
+        id: 'var_19_2',
+        sku: 'SAMTV-65',
+        attributes: { size: '65 inch' },
+        price: 999,
+        originalPrice: 1099,
+        stock: 8,
+        inStock: true,
+        image: '/images/products/product-4b.png',
+      },
+    ],
+    brandId: 'brand_4',
+    categoryIds: ['cat_1', 'cat_4'],
+    tags: ['TV'],
+    specifications: [{ key: 'Resolution', value: '4K UHD' }],
+    couponIds: [],
+    rating: 4.5,
+  },
+
+  {
+    id: 'prod_20',
+    name: 'Nintendo Switch OLED',
+    slug: 'nintendo-switch-oled',
+    description: 'Portable gaming console with vibrant OLED display.',
+    hasVariants: false,
+    basePrice: 349,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_5',
+    categoryIds: ['cat_6'],
+    tags: ['Gaming Console'],
+    specifications: [{ key: 'Display', value: '7 inch OLED' }],
+    couponIds: [],
+    rating: 4.8,
+  },
+
+  {
+    id: 'prod_21',
+    name: 'Adidas Training T-Shirt',
+    slug: 'adidas-training-tshirt',
+    description: 'Breathable sports T-shirt for everyday training.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Size', values: ['S', 'M', 'L'] },
+      { name: 'Color', values: ['Black', 'White'] },
+    ],
+    variants: [
+      {
+        id: 'var_21_1',
+        sku: 'ADTS-S-BLK',
+        attributes: { size: 'S', color: 'Black' },
+        price: 35,
+        originalPrice: 50,
+        stock: 30,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_21_2',
+        sku: 'ADTS-M-WHT',
+        attributes: { size: 'M', color: 'White' },
+        price: 35,
+        originalPrice: 50,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+    ],
+    brandId: 'brand_8',
+    categoryIds: ['cat_8'],
+    tags: ['Sportswear'],
+    specifications: [{ key: 'Material', value: 'Polyester' }],
+    couponIds: [],
+    rating: 4.4,
+  },
+
+  {
+    id: 'prod_22',
+    name: 'Philips Air Fryer XL',
+    slug: 'philips-air-fryer-xl',
+    description: 'Healthy frying with Rapid Air technology.',
+    hasVariants: false,
+    basePrice: 199,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_12',
+    categoryIds: ['cat_4'],
+    tags: ['Kitchen Appliance'],
+    specifications: [{ key: 'Capacity', value: '6.2L' }],
+    couponIds: [],
+    rating: 4.7,
+  },
+
+  {
+    id: 'prod_23',
+    name: 'HP Pavilion 15 Laptop',
+    slug: 'hp-pavilion-15',
+    description: 'Powerful laptop for work and entertainment.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'RAM', values: ['8GB', '16GB'] },
+      { name: 'Storage', values: ['512GB SSD'] },
+    ],
+    variants: [
+      {
+        id: 'var_23_1',
+        sku: 'HPPAV-8GB',
+        attributes: { ram: '8GB', storage: '512GB SSD' },
+        price: 749,
+        originalPrice: 829,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_23_2',
+        sku: 'HPPAV-16GB',
+        attributes: { ram: '16GB', storage: '512GB SSD' },
+        price: 849,
+        originalPrice: 929,
+        stock: 8,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+    ],
+    brandId: 'brand_15',
+    categoryIds: ['cat_1'],
+    tags: ['Laptop'],
+    specifications: [{ key: 'Processor', value: 'Intel i7' }],
+    couponIds: [],
+    rating: 4.6,
+  },
+
+  {
+    id: 'prod_24',
+    name: 'Logitech MX Master 3S Mouse',
+    slug: 'logitech-mx-master-3s',
+    description: 'Advanced wireless mouse with precision tracking.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [{ name: 'Color', values: ['Black', 'White'] }],
+    variants: [
+      {
+        id: 'var_24_1',
+        sku: 'MX3S-BLK',
+        attributes: { color: 'Black' },
+        price: 99,
+        originalPrice: 119,
+        stock: 40,
+        inStock: true,
+        image: '/images/products/product-2a.png',
+      },
+      {
+        id: 'var_24_2',
+        sku: 'MX3S-WHT',
+        attributes: { color: 'White' },
+        price: 99,
+        originalPrice: 119,
+        stock: 32,
+        inStock: true,
+        image: '/images/products/product-2b.png',
+      },
+    ],
+    brandId: 'brand_2',
+    categoryIds: ['cat_1', 'cat_14'],
+    tags: ['Accessory'],
+    specifications: [{ key: 'DPI', value: '8000 DPI' }],
+    couponIds: [],
+    rating: 4.9,
+  },
+  {
+    id: 'prod_25',
+    name: 'Bose SoundLink Flex Speaker',
+    slug: 'bose-soundlink-flex',
+    description: 'Portable Bluetooth speaker with rich sound.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [{ name: 'Color', values: ['Black', 'Red'] }],
+    variants: [
+      {
+        id: 'var_25_1',
+        sku: 'BOSE-FLEX-BLK',
+        attributes: { color: 'Black' },
+        price: 149,
+        originalPrice: 179,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+      },
+      {
+        id: 'var_25_2',
+        sku: 'BOSE-FLEX-RED',
+        attributes: { color: 'Red' },
+        price: 149,
+        originalPrice: 179,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-3b.png',
+      },
+    ],
+    brandId: 'brand_11',
+    categoryIds: ['cat_1'],
+    tags: ['Speaker'],
+    specifications: [{ key: 'Waterproof', value: 'IP67' }],
+    couponIds: [],
+    rating: 4.7,
+  },
+  {
+    id: 'prod_26',
+    name: 'Levi’s 501 Original Fit Jeans',
+    slug: 'levis-501-original-fit-jeans',
+    description: 'Classic straight leg jeans with timeless fit and durability.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Size', values: ['30', '32', '34', '36'] },
+      { name: 'Color', values: ['Blue', 'Black'] },
+    ],
+    variants: [
+      {
+        id: 'var_26_1',
+        sku: 'LEVI501-30-BLU',
+        attributes: { size: '30', color: 'Blue' },
+        price: 89.99,
+        originalPrice: 99,
+        stock: 25,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_26_2',
+        sku: 'LEVI501-32-BLU',
+        attributes: { size: '32', color: 'Blue' },
+        price: 89.99,
+        originalPrice: 99,
+        stock: 20,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_26_3',
+        sku: 'LEVI501-34-BLK',
+        attributes: { size: '34', color: 'Black' },
+        price: 89.99,
+        originalPrice: 99,
+        stock: 15,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+      {
+        id: 'var_26_4',
+        sku: 'LEVI501-36-BLK',
+        attributes: { size: '36', color: 'Black' },
+        price: 89.99,
+        originalPrice: 99,
+        stock: 10,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+    ],
+    brandId: 'brand_7',
+    categoryIds: ['cat_2'],
+    tags: ['Denim', 'Classic'],
+    specifications: [
+      { key: 'Material', value: '100% Cotton' },
+      { key: 'Fit', value: 'Original' },
+    ],
+    couponIds: [],
+    rating: 4.5,
+  },
+
+  {
+    id: 'prod_27',
+    name: 'Ray-Ban Original Wayfarer Sunglasses',
+    slug: 'ray-ban-original-wayfarer',
+    description: 'Iconic sunglasses combining vintage style with modern comfort.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Frame Color', values: ['Black', 'Tortoise'] },
+      { name: 'Lens Color', values: ['Green', 'Brown'] },
+    ],
+    variants: [
+      {
+        id: 'var_27_1',
+        sku: 'RB-WAYF-BLK-GRN',
+        attributes: { 'frame color': 'Black', 'lens color': 'Green' },
+        price: 159,
+        originalPrice: 199,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+      },
+      {
+        id: 'var_27_2',
+        sku: 'RB-WAYF-BLK-BRN',
+        attributes: { 'frame color': 'Black', 'lens color': 'Brown' },
+        price: 159,
+        originalPrice: 199,
+        stock: 14,
+        inStock: true,
+        image: '/images/products/product-3b.png',
+      },
+      {
+        id: 'var_27_3',
+        sku: 'RB-WAYF-TRT-GRN',
+        attributes: { 'frame color': 'Tortoise', 'lens color': 'Green' },
+        price: 159,
+        originalPrice: 199,
+        stock: 12,
+        inStock: true,
+        image: '/images/products/product-3a.png',
+      },
+      {
+        id: 'var_27_4',
+        sku: 'RB-WAYF-TRT-BRN',
+        attributes: { 'frame color': 'Tortoise', 'lens color': 'Brown' },
+        price: 159,
+        originalPrice: 199,
+        stock: 8,
+        inStock: true,
+        image: '/images/products/product-3b.png',
+      },
+    ],
+    brandId: 'brand_8',
+    categoryIds: ['cat_5'],
+    tags: ['Eyewear', 'Fashion'],
+    specifications: [
+      { key: 'UV Protection', value: '100%' },
+      { key: 'Frame Material', value: 'Acetate' },
+    ],
+    couponIds: [],
+    rating: 4.7,
+  },
+
+  {
+    id: 'prod_28',
+    name: 'Organic Basmati Rice 5kg',
+    slug: 'organic-basmati-rice-5kg',
+    description: 'Premium long grain basmati rice with rich aroma and fluffy texture.',
+    hasVariants: false,
+    basePrice: 34.99,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_12',
+    categoryIds: ['cat_12'],
+    tags: ['Rice', 'Organic'],
+    specifications: [
+      { key: 'Weight', value: '5kg' },
+      { key: 'Origin', value: 'India' },
+    ],
+    couponIds: [],
+    rating: 4.8,
+  },
+
+  {
+    id: 'prod_29',
+    name: 'Heinz Tomato Ketchup 1kg',
+    slug: 'heinz-tomato-ketchup-1kg',
+    description: 'Classic rich tomato ketchup perfect for snacks and meals.',
+    hasVariants: false,
+    basePrice: 5.49,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_12',
+    categoryIds: ['cat_12'],
+    tags: ['Condiment'],
+    specifications: [
+      { key: 'Weight', value: '1kg' },
+      { key: 'Flavor', value: 'Original' },
+    ],
+    couponIds: [],
+    rating: 4.6,
+  },
+
+  {
+    id: 'prod_30',
+    name: 'Goodyear All-Season Car Tires (205/55R16)',
+    slug: 'goodyear-all-season-tire-205-55r16',
+    description: 'Durable all-season tire for reliable traction in varied conditions.',
+    hasVariants: false,
+    basePrice: 89.99,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_15',
+    categoryIds: ['cat_9'],
+    tags: ['Tires', 'Automotive'],
+    specifications: [
+      { key: 'Size', value: '205/55R16' },
+      { key: 'Type', value: 'All-Season' },
+    ],
+    couponIds: [],
+    rating: 4.4,
+  },
+
+  {
+    id: 'prod_31',
+    name: 'Castrol EDGE 5W-30 Engine Oil 4L',
+    slug: 'castrol-edge-5w-30-engine-oil-4l',
+    description: 'High performance full synthetic engine oil for modern cars.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [{ name: 'Volume', values: ['4L', '5L'] }],
+    variants: [
+      {
+        id: 'var_31_1',
+        sku: 'CASTROL-EDGE-4L',
+        attributes: { volume: '4L' },
+        price: 46.99,
+        originalPrice: 54,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-1a.png',
+      },
+      {
+        id: 'var_31_2',
+        sku: 'CASTROL-EDGE-5L',
+        attributes: { volume: '5L' },
+        price: 54.99,
+        originalPrice: 62,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-1b.png',
+      },
+    ],
+    brandId: 'brand_15',
+    categoryIds: ['cat_9'],
+    tags: ['Engine Oil'],
+    specifications: [
+      { key: 'Viscosity', value: '5W-30' },
+      { key: 'Type', value: 'Full Synthetic' },
+    ],
+    couponIds: [],
+    rating: 4.5,
+  },
+
+  {
+    id: 'prod_32',
+    name: 'Adidas Running Shorts',
+    slug: 'adidas-running-shorts',
+    description: 'Lightweight breathable shorts ideal for workouts and runs.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Size', values: ['S', 'M', 'L', 'XL'] },
+      { name: 'Color', values: ['Black', 'Navy'] },
+    ],
+    variants: [
+      {
+        id: 'var_32_1',
+        sku: 'ADIR-S-BLK',
+        attributes: { size: 'S', color: 'Black' },
+        price: 29.99,
+        originalPrice: 35,
+        stock: 30,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_32_2',
+        sku: 'ADIR-M-BLK',
+        attributes: { size: 'M', color: 'Black' },
+        price: 29.99,
+        originalPrice: 35,
+        stock: 28,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_32_3',
+        sku: 'ADIR-L-NAV',
+        attributes: { size: 'L', color: 'Navy' },
+        price: 29.99,
+        originalPrice: 35,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+      {
+        id: 'var_32_4',
+        sku: 'ADIR-XL-NAV',
+        attributes: { size: 'XL', color: 'Navy' },
+        price: 29.99,
+        originalPrice: 35,
+        stock: 18,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+    ],
+    brandId: 'brand_8',
+    categoryIds: ['cat_8'],
+    tags: ['Sportwear'],
+    specifications: [{ key: 'Material', value: 'Polyester' }],
+    couponIds: [],
+    rating: 4.3,
+  },
+
+  {
+    id: 'prod_33',
+    name: 'Tide Original Scent Detergent 3kg',
+    slug: 'tide-original-scent-detergent-3kg',
+    description: 'Powerful laundry detergent for everyday cleaning.',
+    hasVariants: false,
+    basePrice: 12.99,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_12',
+    categoryIds: ['cat_12'],
+    tags: ['Cleaning'],
+    specifications: [{ key: 'Weight', value: '3kg' }],
+    couponIds: [],
+    rating: 4.6,
+  },
+
+  {
+    id: 'prod_34',
+    name: 'Puma Men’s Training Tee',
+    slug: 'puma-mens-training-tee',
+    description: 'Comfortable and breathable training T-shirt for men.',
+    hasVariants: true,
+    basePrice: 0,
+    attributes: [
+      { name: 'Size', values: ['S', 'M', 'L', 'XL'] },
+      { name: 'Color', values: ['White', 'Grey'] },
+    ],
+    variants: [
+      {
+        id: 'var_34_1',
+        sku: 'PUMA-TRN-S-WHT',
+        attributes: { size: 'S', color: 'White' },
+        price: 24.99,
+        originalPrice: 30,
+        stock: 26,
+        inStock: true,
+        image: '/images/products/product-5a.png',
+      },
+      {
+        id: 'var_34_2',
+        sku: 'PUMA-TRN-M-GRY',
+        attributes: { size: 'M', color: 'Grey' },
+        price: 24.99,
+        originalPrice: 30,
+        stock: 22,
+        inStock: true,
+        image: '/images/products/product-5b.png',
+      },
+    ],
+    brandId: 'brand_9',
+    categoryIds: ['cat_2'],
+    tags: ['Sportwear'],
+    specifications: [{ key: 'Material', value: 'Cotton Blend' }],
+    couponIds: [],
+    rating: 4.4,
+  },
+
+  {
+    id: 'prod_35',
+    name: 'Nescafé Classic Instant Coffee 200g',
+    slug: 'nescafe-classic-instant-coffee-200g',
+    description: 'Rich aromatic instant coffee for daily enjoyment.',
+    hasVariants: false,
+    basePrice: 8.49,
+    attributes: [],
+    variants: [],
+    brandId: 'brand_12',
+    categoryIds: ['cat_12'],
+    tags: ['Beverage'],
+    specifications: [{ key: 'Weight', value: '200g' }],
+    couponIds: [],
+    rating: 4.7,
   },
 ];
 
@@ -4956,8 +6272,9 @@ export const products: Product[] = rawProducts.map((rp) => {
     ? (rp.couponIds.map((id) => coupons.find((c) => c.id === id)).filter(Boolean) as Coupon[])
     : undefined;
 
-  // Join Variants
-  const productVariants = rawVariants.filter((v) => v.productId === rp.id);
+  // Variants are now pre-populated directly in RawProduct objects
+  const productVariants = rp.variants || [];
+  const primaryVariant = productVariants[0];
 
   return {
     ...rp,
@@ -4968,5 +6285,46 @@ export const products: Product[] = rawProducts.map((rp) => {
     ratings: ratingsStats,
     variants: productVariants,
     coupons: productCoupons,
+    // Provide backwards-compatible empty arrays for colors and sizes as they were removed
+    colors: [],
+    sizes: [],
+    price: rp.basePrice || (primaryVariant?.price ?? 0),
+    sku: rp.sku ?? (primaryVariant?.sku || ''),
+    inStock: rp.inStock ?? (productVariants.length > 0 ? productVariants.some((v) => v.inStock) : true),
+    stockStatus:
+      rp.stockStatus ??
+      (productVariants.length > 0 && productVariants.some((v) => v.inStock)
+        ? 'In Stock'
+        : productVariants.length > 0
+          ? 'Out of Stock'
+          : 'In Stock'),
+    image: rp.image ?? (primaryVariant?.image || ''),
+    images: rp.images ?? (primaryVariant?.images || (primaryVariant?.image ? [primaryVariant.image] : [])),
   };
 });
+
+export const sizeGuide: SizeGuide = {
+  title: 'Size Chart',
+  chart: [
+    { size: 'XS', us: '2', bust: '32', waist: '24 - 25', lowHip: '33 - 34' },
+    { size: 'S', us: '4', bust: '34 - 35', waist: '26 - 27', lowHip: '35 - 36' },
+    { size: 'M', us: '6', bust: '36 - 37', waist: '28 - 29', lowHip: '38 - 40' },
+    { size: 'L', us: '8', bust: '38 - 39', waist: '30 - 31', lowHip: '42 - 44' },
+    { size: 'XL', us: '10', bust: '40 - 41', waist: '32 - 33', lowHip: '45 - 47' },
+    { size: 'XXL', us: '12', bust: '42 - 43', waist: '34 - 35', lowHip: '48 - 50' },
+  ],
+  measuringTips: [
+    {
+      title: 'Bust',
+      description: 'Measure around the fullest part of your bust.',
+    },
+    {
+      title: 'Waist',
+      description: 'Measure around the narrowest part of your torso.',
+    },
+    {
+      title: 'Low Hip',
+      description: 'With your feet together measure around the fullest part of your hips/rear.',
+    },
+  ],
+};

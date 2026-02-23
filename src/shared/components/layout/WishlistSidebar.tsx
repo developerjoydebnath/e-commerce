@@ -58,7 +58,10 @@ export default function WishlistSidebar() {
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen} direction={isDesktop ? 'right' : 'bottom'}>
       <DrawerTrigger asChild>
-        <button className="group flex cursor-pointer items-center gap-3 text-left">
+        <button
+          aria-label={`My Wishlist, ${totalItems} items`}
+          className="group flex cursor-pointer items-center gap-3 text-left"
+        >
           <div className="bg-muted group-hover:bg-primary/10 relative rounded-full p-2 transition-colors">
             <Heart className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-colors" />
             <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px]">
@@ -66,7 +69,7 @@ export default function WishlistSidebar() {
             </span>
           </div>
           <div className="hidden xl:block">
-            <p className="text-muted-foreground text-xs">Favorite</p>
+            <p className="text-muted-foreground text-xs font-semibold">Favorite</p>
             <p className="text-sm font-medium">My Wishlist</p>
           </div>
         </button>
@@ -148,6 +151,7 @@ export default function WishlistSidebar() {
                       <Button
                         onClick={() => removeItem(item.id)}
                         size="icon-sm"
+                        aria-label="Remove from wishlist"
                         variant="outline"
                         className="text-muted-foreground border-input flex items-center justify-center rounded-md border transition-colors hover:text-red-500"
                       >

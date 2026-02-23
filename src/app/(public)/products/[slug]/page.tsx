@@ -53,14 +53,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* Right: Product Info */}
           <div className="w-full">
-            <ProductInfo
-              product={{
-                ...mockProduct,
-                reviews: mockProduct.reviewsCount,
-                rating: mockProduct.ratingScore,
-                categories: mockProduct.categoryNames,
-              }}
-            />
+            <ProductInfo product={productData} />
           </div>
         </div>
 

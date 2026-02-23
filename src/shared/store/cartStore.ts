@@ -12,8 +12,7 @@ export interface CartItem {
   image?: string;
   slug?: string;
   selected?: boolean;
-  color?: string;
-  size?: string;
+  attributes?: Record<string, string>;
   originalPrice?: number;
   stockStatus?: string;
   description?: string;
@@ -31,7 +30,8 @@ interface CartState {
   toggleSelectItem: (cartItemId: string) => void;
   selectAll: (selected: boolean) => void;
   removeSelectedItems: () => void;
-  updateItemVariant: (cartItemId: string, variant: { color?: string; size?: string }) => void;
+  updateItemVariant: (cartItemId: string, attributes: Record<string, string>) => void;
+  updateItem: (cartItemId: string, updates: { attributes?: Record<string, string>; quantity?: number }) => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -41,10 +41,15 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
       addItem: (item) =>
         set((state) => {
-          // Generate a unique cartItemId based on id, color, and size
-          const colorKey = item.color || 'default';
-          const sizeKey = item.size || 'default';
-          const cartItemId = `${item.id}-${colorKey}-${sizeKey}`;
+          // Generate a unique cartItemId based on id and all attributes
+          const attributesKey = item.attributes
+            ? Object.entries(item.attributes)
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([k, v]) => `${k}:${v}`)
+                .join('|')
+            : 'default';
+
+          const cartItemId = `${item.id}-${attributesKey}`;
 
           const existingItem = state.items.find((i) => i.cartItemId === cartItemId);
           const qtyToAdd = item.quantity || 1;
@@ -98,15 +103,19 @@ export const useCartStore = create<CartState>()(
         set((state) => {
           state.items = state.items.filter((i) => !i.selected);
         }),
-      updateItemVariant: (cartItemId, variant) =>
+      updateItemVariant: (cartItemId, newAttributes) =>
         set((state) => {
           const itemIndex = state.items.findIndex((i) => i.cartItemId === cartItemId);
           if (itemIndex !== -1) {
             const item = state.items[itemIndex];
-            const newColor = variant.color !== undefined ? variant.color : item.color;
-            const newSize = variant.size !== undefined ? variant.size : item.size;
+            const mergedAttributes = { ...item.attributes, ...newAttributes };
 
-            const newCartItemId = `${item.id}-${newColor || 'default'}-${newSize || 'default'}`;
+            const attributesKey = Object.entries(mergedAttributes)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([k, v]) => `${k}:${v}`)
+              .join('|');
+
+            const newCartItemId = `${item.id}-${attributesKey}`;
 
             // If the updated variant already exists in the cart, merge them
             const existingSameVariantIndex = state.items.findIndex(
@@ -117,8 +126,41 @@ export const useCartStore = create<CartState>()(
               state.items[existingSameVariantIndex].quantity += item.quantity;
               state.items.splice(itemIndex, 1);
             } else {
-              item.color = newColor;
-              item.size = newSize;
+              item.attributes = mergedAttributes;
+              item.cartItemId = newCartItemId;
+            }
+          }
+        }),
+      updateItem: (cartItemId, updates) =>
+        set((state) => {
+          const itemIndex = state.items.findIndex((i) => i.cartItemId === cartItemId);
+          if (itemIndex !== -1) {
+            const item = state.items[itemIndex];
+            const mergedAttributes = updates.attributes
+              ? { ...item.attributes, ...updates.attributes }
+              : item.attributes;
+            const newQuantity = updates.quantity !== undefined ? updates.quantity : item.quantity;
+
+            const attributesKey = mergedAttributes
+              ? Object.entries(mergedAttributes)
+                  .sort(([a], [b]) => a.localeCompare(b))
+                  .map(([k, v]) => `${k}:${v}`)
+                  .join('|')
+              : 'default';
+
+            const newCartItemId = `${item.id}-${attributesKey}`;
+
+            // If the updated variant already exists in the cart, merge them (unless it's the same itemIndex)
+            const existingSameVariantIndex = state.items.findIndex(
+              (i, idx) => i.cartItemId === newCartItemId && idx !== itemIndex
+            );
+
+            if (existingSameVariantIndex !== -1) {
+              state.items[existingSameVariantIndex].quantity += newQuantity;
+              state.items.splice(itemIndex, 1);
+            } else {
+              item.attributes = mergedAttributes;
+              item.quantity = newQuantity;
               item.cartItemId = newCartItemId;
             }
           }

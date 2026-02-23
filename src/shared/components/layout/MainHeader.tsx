@@ -42,6 +42,7 @@ export default function MainHeader({ isScrolled = false }: { isScrolled?: boolea
             <Input
               type="text"
               placeholder="Search..."
+              aria-label="Search products"
               className="h-auto flex-1 border-none px-2 shadow-none focus-visible:ring-0"
               readOnly
             />
@@ -54,7 +55,11 @@ export default function MainHeader({ isScrolled = false }: { isScrolled?: boolea
         {/* Actions */}
         <div className="order-2 col-span-1 flex items-center justify-end gap-3 sm:gap-6 lg:order-3 lg:col-span-3 xl:col-span-4">
           {/* Mobile Search Icon */}
-          <button onClick={() => setOpenSearch(true)} className="group flex items-center gap-3 lg:hidden">
+          <button
+            onClick={() => setOpenSearch(true)}
+            aria-label="Open search dialog"
+            className="group flex items-center gap-3 lg:hidden"
+          >
             <div className="bg-muted group-hover:bg-primary/10 rounded-full p-2 transition-colors">
               <Search className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-colors" />
             </div>

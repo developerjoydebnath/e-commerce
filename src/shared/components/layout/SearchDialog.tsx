@@ -23,6 +23,7 @@ export default function SearchDialog({ open, setOpen }: { open: boolean; setOpen
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search Products ..."
+              aria-label="Search products"
               className="placeholder:text-muted-foreground h-10 flex-1 border-none bg-transparent text-sm shadow-none ring-0 outline-none focus-visible:ring-0"
             />
 

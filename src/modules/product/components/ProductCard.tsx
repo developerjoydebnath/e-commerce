@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/shared/components/ui/button';
+import { Product } from '@/shared/constants/mockData';
 import { cn } from '@/shared/lib/utils';
 import { useCartStore } from '@/shared/store/cartStore';
 import { useCompareStore } from '@/shared/store/compareStore';
@@ -9,37 +10,25 @@ import { Handbag, Heart, Repeat, ShoppingCart, Star, Zap } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import QuickAddModal from './modals/QuickAddModal';
 
-interface ProductCardProps {
-  id: string | number;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  rating: number;
-  reviews: number;
-  images: string[];
-  discount?: string;
-  brand?: string;
-  slug?: string;
+import { Brand, Review } from '@/shared/constants/mockData';
+
+interface ProductCardProps extends Omit<Product, 'reviews' | 'rating' | 'brand'> {
+  reviews?: Review[] | number;
+  rating?: number | { rating: number };
+  brand?: Brand | string;
 }
 
-export default function ProductCard({
-  id,
-  name,
-  price,
-  originalPrice,
-  rating,
-  reviews,
-  images,
-  discount,
-  brand,
-  slug,
-}: ProductCardProps) {
+export default function ProductCard(props: ProductCardProps) {
+  const { id, name, price, originalPrice, images, rating, reviews, discount, brand, slug, hasVariants } = props;
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
   const addItemToCart = useCartStore((state) => state.addItem);
   const setCartOpen = useCartStore((state) => state.setIsOpen);
+
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
 
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(id));
   const addWishlistItem = useWishlistStore((state) => state.addItem);
@@ -60,12 +49,17 @@ export default function ProductCard({
       e.stopPropagation();
     }
 
+    if (hasVariants) {
+      setIsQuickAddOpen(true);
+      return;
+    }
+
     addItemToCart({
       id,
       name,
       price,
       image: images[0],
-      brand: brand || 'Generic',
+      brand: typeof brand === 'string' ? brand : brand?.name || 'Generic',
       slug: slug || String(id),
     });
     setCartOpen(true);
@@ -75,12 +69,17 @@ export default function ProductCard({
     e.preventDefault();
     e.stopPropagation();
 
+    if (hasVariants) {
+      setIsQuickAddOpen(true);
+      return;
+    }
+
     addItemToCart({
       id,
       name,
       price,
       image: images[0],
-      brand: brand || 'Generic',
+      brand: typeof brand === 'string' ? brand : brand?.name || 'Generic',
       slug: slug || String(id),
     });
     router.push('/checkout');
@@ -97,7 +96,7 @@ export default function ProductCard({
         name,
         price,
         image: images[0],
-        brand: brand || 'Generic',
+        brand: typeof brand === 'string' ? brand : brand?.name || 'Generic',
         slug: slug || String(id),
       });
     }
@@ -121,6 +120,7 @@ export default function ProductCard({
       <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <Button
           onClick={toggleWishlist}
+          aria-label={mounted && isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           className={cn(
             'flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors',
             mounted && isInWishlist
@@ -139,13 +139,14 @@ export default function ProductCard({
               name,
               price,
               originalPrice,
-              rating,
-              reviews,
+              rating: typeof rating === 'number' ? rating : (rating as { rating: number })?.rating || 0,
+              reviews: Array.isArray(reviews) ? reviews.length : (reviews as unknown as number) || 0,
               image: images[0],
-              brand,
+              brand: typeof brand === 'string' ? brand : brand?.name,
               slug,
             });
           }}
+          aria-label={isInCompare ? 'Remove from compare' : 'Add to compare'}
           className={cn(
             'flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors',
             mounted && isInCompare
@@ -184,13 +185,16 @@ export default function ProductCard({
                   key={i}
                   className={cn(
                     'h-3 w-3',
-                    i < Math.floor(rating) ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground/30'
+                    i < Math.floor(typeof rating === 'number' ? rating : (rating as any)?.rating || 0)
+                      ? 'fill-yellow-400 text-yellow-400'
+                      : 'text-muted-foreground/30'
                   )}
                 />
               ))}
             </div>
             <span className="text-muted-foreground text-[11px]">
-              ({rating}) {reviews} Reviews
+              ({typeof rating === 'number' ? rating : (rating as any)?.rating || 0}){' '}
+              {Array.isArray(reviews) ? reviews.length : reviews} Reviews
             </span>
           </div>
 
@@ -217,6 +221,25 @@ export default function ProductCard({
             Add
           </Button>
         </div>
+      </div>
+
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
+        <QuickAddModal
+          isOpen={isQuickAddOpen}
+          onOpenChange={setIsQuickAddOpen}
+          product={
+            {
+              ...props,
+              rating: typeof rating === 'number' ? rating : (rating as { rating: number })?.rating || 0,
+              reviews: Array.isArray(reviews) ? reviews : [],
+            } as Product
+          }
+        />
       </div>
     </div>
   );

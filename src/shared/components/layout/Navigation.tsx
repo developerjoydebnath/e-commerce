@@ -5,6 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu';
+import { categories } from '@/shared/constants/mockData';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import { motion } from 'framer-motion';
 import { ChevronDown, Menu } from 'lucide-react';
@@ -30,6 +31,7 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
+                aria-label="Open categories menu"
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 hover:text-primary-foreground mr-8 flex h-full items-center gap-2 rounded-none px-6 font-semibold tracking-wide uppercase"
               >
                 <Menu className="h-5 w-5" />
@@ -43,11 +45,11 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="start">
-              <DropdownMenuItem>Electronics</DropdownMenuItem>
-              <DropdownMenuItem>Fashion</DropdownMenuItem>
-              <DropdownMenuItem>Home & Garden</DropdownMenuItem>
-              <DropdownMenuItem>Sports</DropdownMenuItem>
-              <DropdownMenuItem>Books</DropdownMenuItem>
+              {categories.map((category) => (
+                <DropdownMenuItem key={category.id} className="py-2.5 text-[15px]">
+                  {category.name}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

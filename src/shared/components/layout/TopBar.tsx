@@ -41,7 +41,10 @@ export default function TopBar() {
           <span className="bg-border h-3 w-px"></span>
 
           <DropdownMenu>
-            <DropdownMenuTrigger className="hover:text-primary flex cursor-pointer items-center gap-1 ring-0 outline-none focus:ring-0 focus:outline-none">
+            <DropdownMenuTrigger
+              aria-label="Select language"
+              className="hover:text-primary flex cursor-pointer items-center gap-1 ring-0 outline-none focus:ring-0 focus:outline-none"
+            >
               <span>{language}</span>
               <ChevronDown size={12} />
             </DropdownMenuTrigger>

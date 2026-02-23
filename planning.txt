@@ -65,3 +65,9 @@ root
 
 
   
+  {
+    ...product_properties,
+    variants: [
+      
+    ]
+  }

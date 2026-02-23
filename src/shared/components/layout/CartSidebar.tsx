@@ -58,7 +58,10 @@ export default function CartSidebar() {
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen} direction={isDesktop ? 'right' : 'bottom'}>
       <DrawerTrigger asChild>
-        <button className="group flex cursor-pointer items-center gap-3 text-left">
+        <button
+          aria-label={`Shopping Cart, ${totalItems} items, total price $${totalPrice.toFixed(2)}`}
+          className="group flex cursor-pointer items-center gap-3 text-left"
+        >
           <div className="bg-muted group-hover:bg-primary/10 relative rounded-full p-2 transition-colors">
             <ShoppingCart className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-colors" />
             <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px]">
@@ -66,7 +69,7 @@ export default function CartSidebar() {
             </span>
           </div>
           <div className="hidden xl:block">
-            <p className="text-muted-foreground text-xs">Cart</p>
+            <p className="text-muted-foreground text-xs font-semibold">Cart</p>
             <p className="text-sm font-medium">
               ${totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
@@ -130,6 +133,7 @@ export default function CartSidebar() {
                         <button
                           onClick={() => decreaseQuantity(item.cartItemId)}
                           disabled={item.quantity <= 1}
+                          aria-label="Decrease quantity"
                           className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-8 items-center justify-center transition-colors disabled:opacity-50"
                         >
                           <Minus className="h-3 w-3" />
@@ -139,6 +143,7 @@ export default function CartSidebar() {
                         </span>
                         <button
                           onClick={() => increaseQuantity(item.cartItemId)}
+                          aria-label="Increase quantity"
                           className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-full w-8 items-center justify-center transition-colors"
                         >
                           <Plus className="h-3 w-3" />
@@ -146,6 +151,7 @@ export default function CartSidebar() {
                       </div>
                       <button
                         onClick={() => removeItem(item.cartItemId)}
+                        aria-label="Remove item"
                         className="text-muted-foreground transition-colors hover:text-red-500"
                       >
                         <Trash2 className="h-5 w-5" />
