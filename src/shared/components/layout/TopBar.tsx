@@ -31,7 +31,7 @@ export default function TopBar() {
             Order Tracking
           </Link>
           <span className="bg-border h-3 w-px"></span>
-          <Link href="/contact-us" className="hover:text-primary transition-colors">
+          <Link href="/support" className="hover:text-primary transition-colors">
             Support
           </Link>
           <span className="bg-border h-3 w-px"></span>

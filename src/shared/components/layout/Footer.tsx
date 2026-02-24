@@ -16,13 +16,13 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-primary pt-16 text-white">
+    <footer className="bg-[#0f1115] pt-16 text-zinc-300">
       <div className="container mx-auto px-4 pb-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Column 1: About */}
           <div className="flex flex-col gap-6">
-            <h3 className="text-lg font-bold tracking-wider uppercase">About</h3>
-            <p className="text-sm leading-relaxed text-white/90">
+            <h3 className="text-lg font-bold tracking-wider text-white uppercase">About</h3>
+            <p className="text-sm leading-relaxed text-zinc-400">
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
               industry&apos;s standard dummy text ever since the 1500s
             </p>
@@ -30,44 +30,42 @@ export default function Footer() {
             <div className="flex flex-col gap-4">
               {/* Payment Methods */}
               <div className="flex gap-2">
-                {/* Placeholders for payment methods (e.g., bkash, ssl commerz, visa, nagad) */}
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="h-8 w-12 rounded bg-white/20 object-cover" />
+                  <div key={i} className="h-8 w-12 rounded border border-zinc-700/50 bg-zinc-800/50 object-cover" />
                 ))}
               </div>
-              <div className="flex items-center gap-2 text-sm font-medium">
+              <div className="flex items-center gap-2 text-sm font-medium text-zinc-400">
                 <Lock className="h-4 w-4" />
                 Secure Online Payment
               </div>
 
               {/* App Stores */}
               <div className="flex gap-4 pt-2">
-                {/* Placeholders for Google Play and App Store */}
-                <div className="h-10 w-32 rounded bg-white/20 object-cover" />
-                <div className="h-10 w-32 rounded bg-white/20 object-cover" />
+                <div className="h-10 w-32 rounded border border-zinc-700/50 bg-zinc-800/50 object-cover" />
+                <div className="h-10 w-32 rounded border border-zinc-700/50 bg-zinc-800/50 object-cover" />
               </div>
             </div>
           </div>
 
           {/* Column 2: Informations */}
           <div className="flex flex-col gap-6">
-            <h3 className="text-lg font-bold tracking-wider uppercase">Informations</h3>
+            <h3 className="text-lg font-bold tracking-wider text-white uppercase">Informations</h3>
             <ul className="flex flex-col gap-3 text-sm">
               {[
-                'About Us',
-                'Contact Us',
-                'Terms & Conditions',
-                'Returns & Refunds Policy',
-                'Shipping & Delivery',
-                'Privet Policy',
-                'FAQ',
-                'Blogs',
-                'About Us',
+                { name: 'About Us', href: '#' },
+                { name: 'Contact Us', href: '/support' },
+                { name: 'Order Tracking', href: '/order-tracking' },
+                { name: 'Terms & Conditions', href: '#' },
+                { name: 'Returns & Refunds Policy', href: '#' },
+                { name: 'Shipping & Delivery', href: '#' },
+                { name: 'Privacy Policy', href: '#' },
+                { name: 'FAQ', href: '/faqs' },
+                { name: 'Blogs', href: '#' },
               ].map((item, index) => (
                 <li key={index}>
-                  <Link href="#" className="text-muted-foreground hover:text-primary transition-colors hover:underline">
-                    <span className="mr-2">•</span>
-                    {item}
+                  <Link href={item.href} className="hover:text-primary text-zinc-400 transition-colors hover:underline">
+                    <span className="mr-2 text-zinc-600">•</span>
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -76,7 +74,7 @@ export default function Footer() {
 
           {/* Column 3: Categories */}
           <div className="flex flex-col gap-6">
-            <h3 className="text-lg font-bold tracking-wider uppercase">Categories</h3>
+            <h3 className="text-lg font-bold tracking-wider text-white uppercase">Categories</h3>
             <ul className="flex flex-col gap-3 text-sm">
               {[
                 'About Us',
@@ -90,8 +88,8 @@ export default function Footer() {
                 'About Us',
               ].map((item, index) => (
                 <li key={index}>
-                  <Link href="#" className="text-white/90 transition-colors hover:text-white hover:underline">
-                    <span className="mr-2">•</span>
+                  <Link href="#" className="hover:text-primary text-zinc-400 transition-colors hover:underline">
+                    <span className="mr-2 text-zinc-600">•</span>
                     {item}
                   </Link>
                 </li>
@@ -101,70 +99,45 @@ export default function Footer() {
 
           {/* Column 4: Contacts & Newsletter */}
           <div className="flex flex-col gap-6">
-            <h3 className="text-lg font-bold tracking-wider uppercase">Contacts</h3>
+            <h3 className="text-lg font-bold tracking-wider text-white uppercase">Contacts</h3>
             <ul className="flex flex-col gap-4 text-sm">
               <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0" />
-                <span className="text-white/90">
+                <MapPin className="text-primary mt-0.5 h-5 w-5 shrink-0" />
+                <span className="text-zinc-400">
                   102/C Green Road, Dhanmondi,
                   <br />
                   Dhaka-1212
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0" />
-                <span className="text-white/90">contact@gmail.com</span>
+                <Mail className="text-primary h-4 w-4 shrink-0" />
+                <span className="text-zinc-400">contact@gmail.com</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0" />
-                <span className="text-white/90">+8801700000000</span>
+                <Phone className="text-primary h-4 w-4 shrink-0" />
+                <span className="text-zinc-400">+8801700000000</span>
               </li>
             </ul>
 
             {/* Social Icons */}
             <div className="flex gap-2 pt-2">
-              <Link
-                href="#"
-                aria-label="Facebook"
-                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <Facebook className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Instagram"
-                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <Instagram className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Twitter"
-                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <Twitter className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Youtube"
-                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <Youtube className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                aria-label="WhatsApp"
-                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <MessageCircle className="h-4 w-4" />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Linkedin"
-                className="flex h-8 w-8 items-center justify-center rounded bg-white/10 transition-colors hover:bg-white/20"
-              >
-                <Linkedin className="h-4 w-4" />
-              </Link>
+              {[
+                { icon: Facebook, label: 'Facebook' },
+                { icon: Instagram, label: 'Instagram' },
+                { icon: Twitter, label: 'Twitter' },
+                { icon: Youtube, label: 'Youtube' },
+                { icon: MessageCircle, label: 'WhatsApp' },
+                { icon: Linkedin, label: 'Linkedin' },
+              ].map((social, idx) => (
+                <Link
+                  key={idx}
+                  href="#"
+                  aria-label={social.label}
+                  className="hover:bg-primary hover:border-primary flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700/50 bg-zinc-800/50 transition-all hover:-translate-y-1 hover:text-white"
+                >
+                  <social.icon className="h-4 w-4" />
+                </Link>
+              ))}
             </div>
 
             {/* Newsletter */}
@@ -173,12 +146,12 @@ export default function Footer() {
                 <Input
                   type="email"
                   placeholder="Type Your Email"
-                  className="h-10 rounded-full border-white/20 bg-transparent pr-24 text-white placeholder:text-white/50 focus-visible:ring-white"
+                  className="focus-visible:ring-primary focus-visible:border-primary h-11 rounded-full border-zinc-700/50 bg-zinc-800/20 pr-28 text-white placeholder:text-zinc-500"
                 />
                 <Button
                   type="submit"
-                  className="absolute top-0 right-0 h-10 rounded-full border border-l-0 border-white/20 bg-white/15 px-6 font-medium text-white hover:bg-white/25 hover:text-white"
-                  variant="ghost"
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90 absolute top-1 right-1 h-9 rounded-full px-6 font-medium text-white"
                 >
                   Subscribe
                 </Button>
@@ -189,9 +162,12 @@ export default function Footer() {
       </div>
 
       {/* Copyright Bar */}
-      <div className="border-t border-white/10 bg-black/10 py-4">
+      <div className="border-t border-zinc-800/50 bg-black/30 py-6">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-white/90">Copyright @ 2024 All rights reserves by Codenixx.com</p>
+          <p className="text-sm text-zinc-500">
+            Copyright &copy; 2024 All rights reserved by{' '}
+            <span className="text-primary cursor-pointer hover:underline">Codenixx.com</span>
+          </p>
         </div>
       </div>
     </footer>
