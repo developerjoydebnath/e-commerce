@@ -4,12 +4,34 @@ import { Button } from '@/shared/components/ui/button';
 import { Checkbox } from '@/shared/components/ui/checkbox';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import { demoAuthCredentials } from '@/shared/constants/demoAuthCredentials';
+import { protectedRoutes } from '@/shared/constants/routes';
+import { useAuthStore } from '@/shared/stores/authStore';
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState(demoAuthCredentials.USER.EMAIL);
+  const [password, setPassword] = useState(demoAuthCredentials.USER.PASSWORD);
+  const login = useAuthStore((state) => state.login);
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Demo credential check
+    if (email === demoAuthCredentials.USER.EMAIL && password === demoAuthCredentials.USER.PASSWORD) {
+      login(email);
+      toast.success('Login successful!');
+      router.push(protectedRoutes.PROFILE);
+    } else {
+      toast.error('Invalid credentials');
+    }
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -17,13 +39,13 @@ export default function LoginPage() {
         <h2 className="text-3xl font-black tracking-tight text-zinc-900">Welcome back</h2>
         <p className="text-sm text-zinc-500">
           {"Don't have an account?"}{' '}
-          <Link href="/register" className="text-primary font-bold hover:underline">
+          <Link prefetch={false} href="/register" className="text-primary font-bold hover:underline">
             Create an account
           </Link>
         </p>
       </div>
 
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -31,6 +53,8 @@ export default function LoginPage() {
             type="email"
             placeholder="name@example.com"
             className="focus-visible:ring-primary h-11 shadow-sm"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -38,7 +62,7 @@ export default function LoginPage() {
         <div className="grid gap-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <Link href="/forgot-password" className="text-primary text-xs font-bold hover:underline">
+            <Link prefetch={false} href="/forgot-password" className="text-primary text-xs font-bold hover:underline">
               Forgot password?
             </Link>
           </div>
@@ -48,6 +72,8 @@ export default function LoginPage() {
               type={showPassword ? 'text' : 'password'}
               placeholder="••••••••"
               className="focus-visible:ring-primary h-11 pr-10 shadow-sm"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button

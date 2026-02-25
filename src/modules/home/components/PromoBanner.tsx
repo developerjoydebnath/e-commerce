@@ -30,7 +30,7 @@ export default function PromoBanner() {
             Get up to 40% off on selected laptops, gaming peripherals, and smart devices. Limited time offer!
           </p>
           <Button asChild size="lg" className="h-12 rounded-full px-8 text-base font-semibold">
-            <Link href="#">Shop the Sale</Link>
+            <Link prefetch={false} href="#">Shop the Sale</Link>
           </Button>
         </div>
       </div>

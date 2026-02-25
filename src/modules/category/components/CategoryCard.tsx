@@ -13,7 +13,7 @@ export interface CategoryCardProps {
 
 export default function CategoryCard({ id, name, count, href, image, className }: CategoryCardProps) {
   return (
-    <Link
+    <Link prefetch={false}
       href={href}
       className={cn(
         'group bg-card relative flex flex-col justify-center overflow-hidden rounded-xl border p-4 transition-all duration-300 hover:shadow-md',

@@ -3,7 +3,7 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useState } from 'react';
-import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 
 // Fix for default marker icons in Next.js + Leaflet
 const DefaultIcon = L.icon({
@@ -28,6 +28,18 @@ function MapClickHandler({ onPositionChange }: { onPositionChange: (pos: { lat: 
   return null;
 }
 
+function MapUpdater({ position }: { position: { lat: number; lng: number } | null }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (position) {
+      map.flyTo([position.lat, position.lng], map.getZoom());
+    }
+  }, [map, position]);
+
+  return null;
+}
+
 export default function LocationMap({ position, onPositionChange }: LocationMapProps) {
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({ lat: 23.8103, lng: 90.4125 }); // Default Dhaka
 
@@ -41,7 +53,7 @@ export default function LocationMap({ position, onPositionChange }: LocationMapP
             setMapCenter(newPos);
             onPositionChange(newPos);
           },
-          (err) => {
+          () => {
             console.warn('Geolocation failed or denied. Using default center Dhaka.');
             onPositionChange({ lat: 23.8103, lng: 90.4125 });
           }
@@ -56,7 +68,7 @@ export default function LocationMap({ position, onPositionChange }: LocationMapP
   }, []); // Only run once on mount
 
   return (
-    <div className="h-[300px] w-full overflow-hidden rounded-md border">
+    <div className="relative z-0 h-[300px] w-full overflow-hidden rounded-md border">
       <MapContainer
         center={position ? [position.lat, position.lng] : [mapCenter.lat, mapCenter.lng]}
         zoom={13}
@@ -69,6 +81,7 @@ export default function LocationMap({ position, onPositionChange }: LocationMapP
         />
         {position && <Marker position={[position.lat, position.lng]} />}
         <MapClickHandler onPositionChange={onPositionChange} />
+        <MapUpdater position={position} />
       </MapContainer>
     </div>
   );

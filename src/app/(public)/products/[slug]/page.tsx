@@ -32,11 +32,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Breadcrumb Navigation */}
         <div className="mb-8">
           <nav className="text-muted-foreground flex items-center text-sm font-medium">
-            <Link href="/" className="hover:text-foreground">
+            <Link prefetch={false} href="/" className="hover:text-foreground">
               <Home className="h-4 w-4" />
             </Link>
             <ChevronRight className="mx-2 h-4 w-4" />
-            <Link href="/categories/mens-fashion" className="hover:text-foreground">
+            <Link prefetch={false} href="/categories/mens-fashion" className="hover:text-foreground">
               Men&apos;s Fashion
             </Link>
             <ChevronRight className="mx-2 h-4 w-4" />

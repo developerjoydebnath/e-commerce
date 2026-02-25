@@ -10,7 +10,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <Link
+        <Link prefetch={false}
           href="/login"
           className="text-muted-foreground hover:text-primary flex items-center gap-1 text-sm font-bold transition-colors"
         >

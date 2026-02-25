@@ -70,7 +70,7 @@ export default function CartItemCard({ item }: { item: CartItem }) {
           <div className="flex flex-col gap-1 sm:flex-row sm:justify-between">
             <div>
               {item.slug ? (
-                <Link
+                <Link prefetch={false}
                   href={`/products/${item.slug}`}
                   className="hover:text-primary line-clamp-2 text-base leading-tight font-semibold transition-colors sm:text-lg"
                 >

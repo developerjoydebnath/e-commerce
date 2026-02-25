@@ -63,7 +63,11 @@ export default function Footer() {
                 { name: 'Blogs', href: '#' },
               ].map((item, index) => (
                 <li key={index}>
-                  <Link href={item.href} className="hover:text-primary text-zinc-400 transition-colors hover:underline">
+                  <Link
+                    prefetch={false}
+                    href={item.href}
+                    className="hover:text-primary text-zinc-400 transition-colors hover:underline"
+                  >
                     <span className="mr-2 text-zinc-600">•</span>
                     {item.name}
                   </Link>
@@ -88,7 +92,11 @@ export default function Footer() {
                 'About Us',
               ].map((item, index) => (
                 <li key={index}>
-                  <Link href="#" className="hover:text-primary text-zinc-400 transition-colors hover:underline">
+                  <Link
+                    prefetch={false}
+                    href="#"
+                    className="hover:text-primary text-zinc-400 transition-colors hover:underline"
+                  >
                     <span className="mr-2 text-zinc-600">•</span>
                     {item}
                   </Link>
@@ -131,6 +139,7 @@ export default function Footer() {
               ].map((social, idx) => (
                 <Link
                   key={idx}
+                  prefetch={false}
                   href="#"
                   aria-label={social.label}
                   className="hover:bg-primary hover:border-primary flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700/50 bg-zinc-800/50 transition-all hover:-translate-y-1 hover:text-white"

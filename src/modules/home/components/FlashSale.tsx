@@ -91,7 +91,7 @@ export default function FlashSale() {
               </div>
             </div>
 
-            <Link href="/flash-sale">
+            <Link prefetch={false} href="/flash-sale">
               <button className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 rounded-full px-10 py-4 text-sm font-black tracking-widest uppercase shadow-xl transition-all hover:scale-105 active:scale-95">
                 Shop Now
               </button>

@@ -29,7 +29,7 @@ export default function CompareButton() {
           transition={{ duration: 0.2 }}
           className="fixed right-6 bottom-6 z-50 sm:right-8 sm:bottom-8"
         >
-          <Link href="/compare" passHref>
+          <Link prefetch={false} href="/compare" passHref>
             <Button
               size="icon"
               className={cn(

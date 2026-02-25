@@ -24,11 +24,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         {/* Top Controls / Breadcrumbs row */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <nav className="text-muted-foreground flex items-center text-sm font-medium">
-            <Link href="/" className="hover:text-foreground">
+            <Link prefetch={false} href="/" className="hover:text-foreground">
               <Home className="h-4 w-4" />
             </Link>
             <ChevronRight className="mx-2 h-4 w-4" />
-            <Link href="/" className="hover:text-foreground">
+            <Link prefetch={false} href="/" className="hover:text-foreground">
               Category Name
             </Link>
             <ChevronRight className="mx-2 h-4 w-4" />

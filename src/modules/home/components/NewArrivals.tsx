@@ -19,7 +19,7 @@ export default function NewArrivals() {
     <section className="container mx-auto px-4 py-8 md:py-12">
       <div className="mb-8 flex items-center justify-between">
         <h2 className="text-xl font-bold md:text-2xl">New Arrivals</h2>
-        <Link href="#" className="hidden text-sm font-medium hover:underline sm:block">
+        <Link prefetch={false} href="#" className="hidden text-sm font-medium hover:underline sm:block">
           View All New Arrivals &gt;
         </Link>
       </div>

@@ -30,6 +30,7 @@ interface CheckoutState {
   prevStep: () => void;
   addAddress: (address: Omit<SavedAddress, 'id'>) => void;
   editAddress: (id: string, address: Omit<SavedAddress, 'id'>) => void;
+  deleteAddress: (id: string) => void;
   setSelectedAddress: (id: string) => void;
   setShippingMethod: (method: ShippingMethod) => void;
   setSelectedPaymentMethod: (method: string) => void;
@@ -101,6 +102,12 @@ export const useCheckoutStore = create<CheckoutState>()(
       editAddress: (id, address) =>
         set((state) => ({
           savedAddresses: state.savedAddresses.map((addr) => (addr.id === id ? { ...addr, ...address } : addr)),
+        })),
+
+      deleteAddress: (id) =>
+        set((state) => ({
+          savedAddresses: state.savedAddresses.filter((addr) => addr.id !== id),
+          selectedAddressId: state.selectedAddressId === id ? null : state.selectedAddressId,
         })),
 
       setSelectedAddress: (id) => set({ selectedAddressId: id }),

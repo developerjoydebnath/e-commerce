@@ -60,7 +60,7 @@ export default function WishlistPage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/">Home</Link>
+                <Link prefetch={false} href="/">Home</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -112,7 +112,7 @@ export default function WishlistPage() {
                     <div className="flex flex-1 flex-col sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex w-full flex-col sm:max-w-[400px] lg:max-w-[500px]">
                         {item.slug ? (
-                          <Link
+                          <Link prefetch={false}
                             href={`/products/${item.slug}`}
                             className="hover:text-primary line-clamp-2 text-base font-semibold transition-colors sm:text-lg"
                           >
@@ -199,7 +199,7 @@ export default function WishlistPage() {
               </div>
               <h3 className="text-xl font-bold">Your wishlist is empty</h3>
               <p className="text-muted-foreground mt-2 mb-6">Looks like you haven&apos;t added any favorites yet.</p>
-              <Link href="/">
+              <Link prefetch={false} href="/">
                 <Button>Start Browsing</Button>
               </Link>
             </div>

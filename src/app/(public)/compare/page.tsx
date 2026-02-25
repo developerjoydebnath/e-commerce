@@ -36,7 +36,7 @@ export default function ComparePage() {
           You haven&apos;t selected any products to compare yet. Browse our catalog and click the compare icon on
           products you want to review side-by-side.
         </p>
-        <Link href="/">
+        <Link prefetch={false} href="/">
           <Button size="lg" className="rounded-full px-8">
             Return to Shop
           </Button>
@@ -92,7 +92,7 @@ export default function ComparePage() {
                     <Trash2 className="h-5 w-5" />
                   </Button>
 
-                  <Link
+                  <Link prefetch={false}
                     href={`/products/${item.slug || item.id}`}
                     className="mb-4 block aspect-square w-full max-w-[200px] overflow-hidden rounded-xl border bg-white"
                   >
@@ -105,7 +105,7 @@ export default function ComparePage() {
                     />
                   </Link>
 
-                  <Link
+                  <Link prefetch={false}
                     href={`/products/${item.slug || item.id}`}
                     className="hover:text-primary text-center transition-colors"
                   >

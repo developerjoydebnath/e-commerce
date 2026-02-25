@@ -2,7 +2,9 @@
 
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
+import { protectedRoutes, publicRoutes } from '@/shared/constants/routes';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
+import { useAuthStore } from '@/shared/stores/authStore';
 import { motion } from 'framer-motion';
 import { Search, User } from 'lucide-react';
 import Link from 'next/link';
@@ -14,6 +16,7 @@ import WishlistSidebar from './WishlistSidebar';
 export default function MainHeader({ isScrolled = false }: { isScrolled?: boolean }) {
   const [openSearch, setOpenSearch] = useState(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
     <motion.div
@@ -28,7 +31,7 @@ export default function MainHeader({ isScrolled = false }: { isScrolled?: boolea
       <div className="container mx-auto grid grid-cols-2 items-center gap-4 px-4 lg:grid-cols-12">
         {/* Logo */}
         <div className="order-1 col-span-1 lg:order-1 lg:col-span-3 xl:col-span-4">
-          <Link href="/" className="text-primary text-3xl font-bold tracking-tight">
+          <Link prefetch={false} href="/" className="text-primary text-3xl font-bold tracking-tight">
             LOGO
           </Link>
         </div>
@@ -65,12 +68,16 @@ export default function MainHeader({ isScrolled = false }: { isScrolled?: boolea
             </div>
           </button>
 
-          <Link href="/login" className="group flex items-center gap-3">
+          <Link
+            prefetch={false}
+            href={isAuthenticated ? protectedRoutes.PROFILE : publicRoutes.LOGIN}
+            className="group flex items-center gap-3"
+          >
             <div className="bg-muted group-hover:bg-primary/10 rounded-full p-2 transition-colors">
               <User className="text-muted-foreground group-hover:text-primary h-5 w-5 transition-colors" />
             </div>
             <div className="hidden xl:block">
-              <p className="text-muted-foreground text-xs">Login</p>
+              <p className="text-muted-foreground text-xs">{isAuthenticated ? 'Profile' : 'Login'}</p>
               <p className="text-sm font-medium">Account</p>
             </div>
           </Link>

@@ -32,7 +32,7 @@ export default function PopularCategories({
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-xl font-bold md:text-2xl">{title}</h2>
         {!hideHeader && (
-          <Link href="/categories" className="text-sm font-medium">
+          <Link prefetch={false} href="/categories" className="text-sm font-medium">
             View All Categories &gt;
           </Link>
         )}

@@ -65,9 +65,17 @@ root
 
 
   
-  {
-    ...product_properties,
-    variants: [
-      
-    ]
-  }
+now here i want to implement dynamic theme where user can customize their own theme like 
+1. primary color
+2. secondary color
+3. accent color
+4. success color
+5. destructive color
+6. warning color
+7. info color
+8. border color
+9. border radius
+10. font family
+11. background color
+12. foreground color
+13. 

@@ -52,7 +52,7 @@ export default function OrderTrackingPage() {
 
         {/* Tracking Form */}
         <div className="mb-16">
-          <Card className="rounded-3xl border-zinc-200 bg-white p-0 shadow-2xl shadow-zinc-200/50 sm:rounded-4xl sm:p-2 md:rounded-[2.5rem]">
+          <Card className="rounded-lg border-zinc-200 bg-white p-0 shadow-2xl shadow-zinc-200/50 sm:p-2 md:rounded-xl">
             <CardContent className="p-6 sm:p-8 md:p-12">
               <form onSubmit={handleSearch} className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-end">
                 <div className="space-y-2">
@@ -63,7 +63,7 @@ export default function OrderTrackingPage() {
                     <Input
                       id="order-id"
                       placeholder="e.g. #ORD-12345"
-                      className="focus:ring-primary h-12 rounded-xl border-zinc-200 bg-zinc-50/50 pl-11 focus:bg-white sm:h-14 sm:rounded-2xl"
+                      className="focus:ring-primary h-12 rounded-md border-zinc-200 bg-zinc-50/50 pl-11 focus:bg-white sm:h-14"
                       value={orderId}
                       onChange={(e) => setOrderId(e.target.value)}
                       required
@@ -79,7 +79,7 @@ export default function OrderTrackingPage() {
                     <Input
                       id="contact"
                       placeholder="name@example.com"
-                      className="focus:ring-primary h-12 rounded-lg border-zinc-200 bg-zinc-50/50 pl-11 focus:bg-white sm:h-14 sm:rounded-2xl"
+                      className="focus:ring-primary h-12 rounded-md border-zinc-200 bg-zinc-50/50 pl-11 focus:bg-white sm:h-14"
                       value={contact}
                       onChange={(e) => setContact(e.target.value)}
                       required
@@ -90,7 +90,7 @@ export default function OrderTrackingPage() {
                 <Button
                   type="submit"
                   disabled={isSearching}
-                  className="bg-primary shadow-primary/20 h-12 rounded-xl text-sm font-black tracking-wider text-white uppercase disabled:opacity-70 sm:h-14 sm:rounded-2xl sm:tracking-widest"
+                  className="bg-primary shadow-primary/20 h-12 rounded-md text-sm font-black tracking-wider text-white uppercase disabled:opacity-70 sm:h-14 sm:tracking-widest"
                 >
                   {isSearching ? (
                     <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
@@ -111,7 +111,7 @@ export default function OrderTrackingPage() {
           <div className="space-y-8">
             {/* Order Info Card */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <Card className="rounded-2xl border-zinc-200 py-0 shadow-lg shadow-zinc-200/30 sm:rounded-3xl md:py-4">
+              <Card className="rounded-md border-zinc-200 py-0 shadow-lg shadow-zinc-200/30">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="bg-primary/10 text-primary rounded-2xl p-3">
                     <Package className="h-6 w-6" />
@@ -122,7 +122,7 @@ export default function OrderTrackingPage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="rounded-2xl border-zinc-200 py-0 shadow-lg shadow-zinc-200/30 md:rounded-3xl md:py-4">
+              <Card className="rounded-md border-zinc-200 py-0 shadow-lg shadow-zinc-200/30">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="rounded-2xl bg-orange-100 p-3 text-orange-600">
                     <Clock className="h-6 w-6" />
@@ -133,7 +133,7 @@ export default function OrderTrackingPage() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="rounded-2xl border-zinc-200 py-0 shadow-lg shadow-zinc-200/30 md:rounded-3xl md:py-4">
+              <Card className="rounded-md border-zinc-200 py-0 shadow-lg shadow-zinc-200/30">
                 <CardContent className="flex items-center gap-4 p-6">
                   <div className="rounded-2xl bg-blue-100 p-3 text-blue-600">
                     <MapPin className="h-6 w-6" />
@@ -147,7 +147,7 @@ export default function OrderTrackingPage() {
             </div>
 
             {/* STUNNING STEPPER (Static) */}
-            <Card className="overflow-hidden rounded-3xl border-zinc-200 bg-white p-0 shadow-2xl shadow-zinc-200/50 sm:rounded-4xl md:rounded-[2.5rem]">
+            <Card className="overflow-hidden rounded-lg border-zinc-200 bg-white p-0 shadow-2xl shadow-zinc-200/50 sm:rounded-xl">
               <CardContent className="p-6 sm:p-10 md:p-16">
                 <div className="relative">
                   {/* Progress Bar Background */}
@@ -218,10 +218,7 @@ export default function OrderTrackingPage() {
                   Estimating delivery: <span className="font-bold text-zinc-900">Tomorrow, by 10:00 PM</span>
                 </div>
                 <div className="flex gap-4">
-                  <Button variant="outline" className="h-10 rounded-xl border-zinc-200 px-6">
-                    View Details
-                  </Button>
-                  <Button className="h-10 rounded-xl bg-zinc-900 px-6 text-white hover:bg-zinc-800">Support</Button>
+                  <Button>Support</Button>
                 </div>
               </div>
             </Card>

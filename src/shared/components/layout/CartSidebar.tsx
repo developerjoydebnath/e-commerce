@@ -113,7 +113,7 @@ export default function CartSidebar() {
                   <div className="flex flex-1 flex-col justify-between">
                     <div>
                       {item.slug ? (
-                        <Link
+                        <Link prefetch={false}
                           href={`/products/${item.slug}`}
                           onClick={() => setIsOpen(false)}
                           className="hover:text-primary line-clamp-2 text-sm leading-normal font-medium transition-colors"
@@ -190,7 +190,7 @@ export default function CartSidebar() {
                 Checkout Now
               </Button>
             ) : (
-              <Link href="/checkout" onClick={() => setIsOpen(false)} className="block w-full">
+              <Link prefetch={false} href="/checkout" onClick={() => setIsOpen(false)} className="block w-full">
                 <Button className="w-full font-bold" size="lg">
                   Checkout Now
                 </Button>

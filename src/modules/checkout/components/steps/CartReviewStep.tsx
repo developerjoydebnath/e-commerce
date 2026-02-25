@@ -43,7 +43,7 @@ export default function CartReviewStep() {
         </div>
         <h3 className="text-xl font-bold">Your cart is empty</h3>
         <p className="text-muted-foreground mt-2 mb-6">Looks like you haven&apos;t added anything to checkout yet.</p>
-        <Link href="/">
+        <Link prefetch={false} href="/">
           <Button>Start Shopping</Button>
         </Link>
       </div>

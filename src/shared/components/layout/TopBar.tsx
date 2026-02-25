@@ -27,15 +27,15 @@ export default function TopBar() {
       <div className="container mx-auto flex flex-col items-center justify-between gap-2 px-4 md:flex-row">
         <p>Notifications and offer details will be shown here...</p>
         <div className="flex items-center gap-4">
-          <Link href="/order-tracking" className="hover:text-primary transition-colors">
+          <Link prefetch={false} href="/order-tracking" className="hover:text-primary transition-colors">
             Order Tracking
           </Link>
           <span className="bg-border h-3 w-px"></span>
-          <Link href="/support" className="hover:text-primary transition-colors">
+          <Link prefetch={false} href="/support" className="hover:text-primary transition-colors">
             Support
           </Link>
           <span className="bg-border h-3 w-px"></span>
-          <Link href="/faqs" className="hover:text-primary transition-colors">
+          <Link prefetch={false} href="/faqs" className="hover:text-primary transition-colors">
             FAQs
           </Link>
           <span className="bg-border h-3 w-px"></span>

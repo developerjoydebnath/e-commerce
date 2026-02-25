@@ -27,19 +27,19 @@ export default function MobileMenu() {
               <AccordionTrigger className="hover:no-underline">All Categories</AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-col gap-2 pl-4">
-                  <Link href="/category/electronics" className="hover:text-primary py-2">
+                  <Link prefetch={false} href="/category/electronics" className="hover:text-primary py-2">
                     Electronics
                   </Link>
-                  <Link href="/category/fashion" className="hover:text-primary py-2">
+                  <Link prefetch={false} href="/category/fashion" className="hover:text-primary py-2">
                     Fashion
                   </Link>
-                  <Link href="/category/home" className="hover:text-primary py-2">
+                  <Link prefetch={false} href="/category/home" className="hover:text-primary py-2">
                     Home & Garden
                   </Link>
-                  <Link href="/category/sports" className="hover:text-primary py-2">
+                  <Link prefetch={false} href="/category/sports" className="hover:text-primary py-2">
                     Sports
                   </Link>
-                  <Link href="/category/books" className="hover:text-primary py-2">
+                  <Link prefetch={false} href="/category/books" className="hover:text-primary py-2">
                     Books
                   </Link>
                 </div>
@@ -47,19 +47,19 @@ export default function MobileMenu() {
             </AccordionItem>
           </Accordion>
 
-          <Link href="/products" className="border-b py-2 text-sm font-medium">
+          <Link prefetch={false} href="/products" className="border-b py-2 text-sm font-medium">
             Products
           </Link>
-          <Link href="/brands" className="border-b py-2 text-sm font-medium">
+          <Link prefetch={false} href="/brands" className="border-b py-2 text-sm font-medium">
             Brands
           </Link>
-          <Link href="/blog" className="border-b py-2 text-sm font-medium">
+          <Link prefetch={false} href="/blog" className="border-b py-2 text-sm font-medium">
             Blog
           </Link>
-          <Link href="/about-us" className="border-b py-2 text-sm font-medium">
+          <Link prefetch={false} href="/about-us" className="border-b py-2 text-sm font-medium">
             About Us
           </Link>
-          <Link href="/contact-us" className="border-b py-2 text-sm font-medium">
+          <Link prefetch={false} href="/contact-us" className="border-b py-2 text-sm font-medium">
             Contact Us
           </Link>
         </div>

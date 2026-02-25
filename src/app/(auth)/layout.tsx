@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="flex w-full flex-col p-8 lg:w-1/2 lg:p-12 xl:p-24">
         {/* Header */}
         <header className="mb-12">
-          <Link href="/" className="flex items-center gap-2">
+          <Link prefetch={false} href="/" className="flex items-center gap-2">
             <div className="bg-primary flex h-10 w-10 items-center justify-center rounded-lg shadow-lg">
               <span className="text-xl font-black text-white">L</span>
             </div>
@@ -25,7 +25,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <footer className="mt-12 border-t pt-6">
           <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-500">
             <p>© 2024 All rights reserved. Made by Codenixx.com</p>
-            <Link href="#" className="hover:text-primary transition-colors">
+            <Link prefetch={false} href="#" className="hover:text-primary transition-colors">
               Need help?
             </Link>
           </div>

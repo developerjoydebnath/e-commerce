@@ -23,7 +23,7 @@ export default function RegisterPage() {
         <h2 className="text-3xl font-black tracking-tight text-zinc-900">Create an account</h2>
         <p className="text-sm text-zinc-500">
           I already have an account{' '}
-          <Link href="/login" className="text-primary font-bold hover:underline">
+          <Link prefetch={false} href="/login" className="text-primary font-bold hover:underline">
             Sign in
           </Link>
         </p>
@@ -63,7 +63,7 @@ export default function RegisterPage() {
           <Checkbox id="privacy" className="mt-1" />
           <Label htmlFor="privacy" className="cursor-pointer text-sm leading-relaxed text-zinc-600">
             I have read and accept the{' '}
-            <Link href="#" className="font-bold text-zinc-900 hover:underline">
+            <Link prefetch={false} href="#" className="font-bold text-zinc-900 hover:underline">
               Privacy Policy
             </Link>
           </Label>

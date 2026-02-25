@@ -20,7 +20,7 @@ export default function HotTrendingProducts() {
     <section className="container mx-auto px-4 py-8 md:py-12">
       <div className="mb-8 flex items-center justify-between">
         <h2 className="text-xl font-bold md:text-2xl">Hot Trending Products</h2>
-        <Link href="#" className="hidden text-sm font-medium hover:underline sm:block">
+        <Link prefetch={false} href="#" className="hidden text-sm font-medium hover:underline sm:block">
           View All Products &gt;
         </Link>
       </div>
@@ -32,7 +32,7 @@ export default function HotTrendingProducts() {
       </div>
 
       <div className="flex justify-center">
-        <Link
+        <Link prefetch={false}
           href="#"
           className="bg-muted hover:bg-muted/80 text-foreground flex h-12 items-center justify-center rounded-lg px-8 font-medium transition-colors"
         >

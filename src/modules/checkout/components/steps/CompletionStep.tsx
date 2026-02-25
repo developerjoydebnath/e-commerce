@@ -21,12 +21,12 @@ export default function CompletionStep() {
       </p>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Link href="/">
+        <Link prefetch={false} href="/">
           <Button variant="outline" size="lg" className="w-full font-semibold sm:w-auto">
             Continue Shopping
           </Button>
         </Link>
-        <Link href="/">
+        <Link prefetch={false} href="/">
           {' '}
           {/* Placeholder for an orders page */}
           <Button size="lg" className="w-full font-semibold sm:w-auto">

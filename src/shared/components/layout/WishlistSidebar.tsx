@@ -111,7 +111,7 @@ export default function WishlistSidebar() {
                   <div className="flex flex-1 flex-col justify-between">
                     <div>
                       {item.slug ? (
-                        <Link
+                        <Link prefetch={false}
                           href={`/products/${item.slug}`}
                           onClick={() => setIsOpen(false)}
                           className="hover:text-primary line-clamp-2 text-sm leading-normal font-medium transition-colors"
@@ -173,7 +173,7 @@ export default function WishlistSidebar() {
         <DrawerFooter className="bg-background border-t px-6 py-4">
           <div className="flex flex-col gap-3">
             {wishlistItems.length > 0 ? (
-              <Link href="/wishlist" onClick={() => setIsOpen(false)} className="block w-full">
+              <Link prefetch={false} href="/wishlist" onClick={() => setIsOpen(false)} className="block w-full">
                 <Button className="w-full font-bold" size="lg">
                   View Full Wishlist
                 </Button>
