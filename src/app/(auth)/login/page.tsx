@@ -1,38 +1,10 @@
 'use client';
 
+import { LoginForm } from '@/modules/auth/components/LoginForm';
 import { Button } from '@/shared/components/ui/button';
-import { Checkbox } from '@/shared/components/ui/checkbox';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { demoAuthCredentials } from '@/shared/constants/demoAuthCredentials';
-import { protectedRoutes } from '@/shared/constants/routes';
-import { useAuthStore } from '@/shared/stores/authStore';
-import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { toast } from 'sonner';
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState(demoAuthCredentials.USER.EMAIL);
-  const [password, setPassword] = useState(demoAuthCredentials.USER.PASSWORD);
-  const login = useAuthStore((state) => state.login);
-  const router = useRouter();
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Demo credential check
-    if (email === demoAuthCredentials.USER.EMAIL && password === demoAuthCredentials.USER.PASSWORD) {
-      login(email);
-      toast.success('Login successful!');
-      router.push(protectedRoutes.PROFILE);
-    } else {
-      toast.error('Invalid credentials');
-    }
-  };
-
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
@@ -45,64 +17,7 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="name@example.com"
-            className="focus-visible:ring-primary h-11 shadow-sm"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-
-        <div className="grid gap-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link prefetch={false} href="/forgot-password" className="text-primary text-xs font-bold hover:underline">
-              Forgot password?
-            </Link>
-          </div>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="••••••••"
-              className="focus-visible:ring-primary h-11 pr-10 shadow-sm"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-zinc-400 hover:text-zinc-600"
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Checkbox id="remember" />
-          <Label
-            htmlFor="remember"
-            className="cursor-pointer text-sm leading-none font-medium text-zinc-600 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            Remember for 30 days
-          </Label>
-        </div>
-
-        <Button
-          type="submit"
-          className="bg-primary hover:bg-primary/90 h-12 text-sm font-black tracking-widest text-white uppercase shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
-        >
-          Sign In
-        </Button>
-      </form>
+      <LoginForm />
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">

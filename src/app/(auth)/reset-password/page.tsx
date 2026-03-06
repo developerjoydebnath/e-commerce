@@ -1,28 +1,28 @@
 'use client';
 
-import { ForgotPasswordForm } from '@/modules/auth/components/ForgotPasswordForm';
+import { ResetPasswordForm } from '@/modules/auth/components/ResetPasswordForm';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ForgotPasswordPage() {
+export default function ResetPasswordPage() {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
         <Link
           prefetch={false}
-          href="/login"
+          href="/verify-otp"
           className="text-muted-foreground hover:text-primary flex items-center gap-1 text-sm font-bold transition-colors"
         >
           <ChevronLeft className="h-4 w-4" />
-          Back to Sign In
+          Back to OTP Verification
         </Link>
-        <h2 className="mt-4 text-3xl font-black tracking-tight text-zinc-900">Forgot password?</h2>
+        <h2 className="mt-4 text-3xl font-black tracking-tight text-zinc-900">Set new password</h2>
         <p className="text-sm leading-relaxed text-zinc-500">
-          Enter the email address you used when you joined and we{"'"}ll send you instructions to reset your password
+          Your new password must be structurally different from your securely stored previous passwords.
         </p>
       </div>
 
-      <ForgotPasswordForm />
+      <ResetPasswordForm />
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="flex min-h-screen w-full flex-col lg:flex-row">
       {/* Left Section: Form */}
-      <div className="flex w-full flex-col p-8 lg:w-1/2 lg:p-12 xl:p-24">
+      <div className="flex min-h-screen flex-col p-8 lg:w-1/2 lg:p-12">
         {/* Header */}
         <header className="mb-12">
           <Link prefetch={false} href="/" className="flex items-center gap-2">

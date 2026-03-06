@@ -1,3 +1,4 @@
+import { AddressType } from '@/modules/address-book/type/address.type';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -7,7 +8,7 @@ export type ShippingMethod = 'regular' | 'express';
 
 export interface SavedAddress {
   id: string;
-  name: string;
+  addressType: AddressType;
   phone: string;
   division: string;
   district: string;
@@ -45,7 +46,7 @@ export const useCheckoutStore = create<CheckoutState>()(
       savedAddresses: [
         {
           id: 'addr_1',
-          name: 'Home',
+          addressType: AddressType.HOME,
           phone: '01712345678',
           division: 'Dhaka',
           district: 'Dhaka',
@@ -56,7 +57,7 @@ export const useCheckoutStore = create<CheckoutState>()(
         },
         {
           id: 'addr_2',
-          name: 'Office',
+          addressType: AddressType.OFFICE,
           phone: '01887654321',
           division: 'Chattogram',
           district: 'Chattogram',

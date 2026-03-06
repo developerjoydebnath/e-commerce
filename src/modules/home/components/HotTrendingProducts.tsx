@@ -25,14 +25,15 @@ export default function HotTrendingProducts() {
         </Link>
       </div>
 
-      <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {trendingProducts.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}
       </div>
 
       <div className="flex justify-center">
-        <Link prefetch={false}
+        <Link
+          prefetch={false}
           href="#"
           className="bg-muted hover:bg-muted/80 text-foreground flex h-12 items-center justify-center rounded-lg px-8 font-medium transition-colors"
         >

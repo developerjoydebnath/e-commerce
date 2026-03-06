@@ -8,12 +8,15 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu';
 import { categories } from '@/shared/constants/mockData';
+import { publicRoutes } from '@/shared/constants/routes';
 import useMediaQuery from '@/shared/hooks/useMediaQuery';
 import { cn } from '@/shared/lib/utils';
+import { useAuthStore } from '@/shared/stores/authStore';
 import { motion } from 'framer-motion';
-import { ChevronDown, CircleQuestionMark, Headset, Languages, Menu, Moon, Sun, Truck } from 'lucide-react';
+import { ChevronDown, CircleQuestionMark, Headset, Languages, LogOut, Menu, Moon, Sun, Truck } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import MobileMenu from './MobileMenu';
@@ -23,12 +26,20 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [language, setLanguage] = useState('English');
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const logout = useAuthStore((state) => state.logout);
+  const router = useRouter();
 
   useEffect(() => {
     // Avoid synchronous setState warning
     const timer = setTimeout(() => setMounted(true), 0);
     return () => clearTimeout(timer);
   }, []);
+
+  const logoutHandler = () => {
+    logout();
+    router.push(publicRoutes.HOME);
+  };
 
   return (
     <motion.div
@@ -204,6 +215,20 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
             </Tooltip>
           </div>
         </motion.nav>
+
+        {mounted && isAuthenticated && (
+          <div className="flex items-center gap-4 pl-4">
+            <span className={cn('h-3 w-px bg-white/60', isScrolled ? 'md:flex' : 'md:hidden')}></span>
+            <button
+              onClick={logoutHandler}
+              className="flex cursor-pointer items-center gap-1 hover:text-white/80"
+              aria-label="Logout"
+            >
+              <LogOut className={cn('transition-all duration-300', isScrolled ? 'h-3.5 w-3.5' : 'h-4 w-4')} />
+              <span className={cn('font-medium uppercase', isScrolled ? 'text-xs' : 'text-sm')}>Logout</span>
+            </button>
+          </div>
+        )}
       </div>
     </motion.div>
   );

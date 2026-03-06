@@ -207,18 +207,13 @@ export default function ProductCard(props: ProductCardProps) {
         </div>
 
         <div className="relative z-20 mt-auto flex gap-2 pt-4">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleBuyNow}
-            className="hover:bg-primary hover:text-primary-foreground h-9 w-full flex-1 rounded-lg text-xs font-semibold transition-all"
-          >
+          <Button variant="outline" size="default-responsive" onClick={handleBuyNow} className="w-full flex-1">
             <Handbag className="h-3.5 w-3.5" />
-            Buy Now
+            <span className=":hidden">Buy Now</span>
           </Button>
-          <Button size="sm" className="group/btn h-9 flex-1 rounded-lg text-xs font-semibold" onClick={handleAddToCart}>
+          <Button size="default-responsive" className="w-full flex-1" onClick={handleAddToCart}>
             <ShoppingCart className="h-3.5 w-3.5" />
-            Add
+            <span className="">Add</span>
           </Button>
         </div>
       </div>

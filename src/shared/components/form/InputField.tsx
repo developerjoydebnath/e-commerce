@@ -3,6 +3,8 @@ import { Label } from '@/shared/components/ui/label';
 import { cn } from '@/shared/lib/utils';
 import { Control, useController, UseControllerProps } from 'react-hook-form';
 import { match } from 'ts-pattern';
+import { Checkbox } from '../ui/checkbox';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../ui/input-otp';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import DatePicker from './DatePicker';
 import PasswordInput from './PasswordInput';
@@ -30,7 +32,7 @@ export default function InputField({ ...props }: InputFieldProps) {
   const { field, fieldState } = useController(props);
   return (
     <div className="flex flex-col gap-2">
-      {props.label && (
+      {props.label && props.type !== 'checkbox' && (
         <Label
           htmlFor={field.name}
           className={cn(
@@ -55,6 +57,28 @@ export default function InputField({ ...props }: InputFieldProps) {
           />
         ))
 
+        // checkbox
+        .with('checkbox', () => (
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id={field.name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+              className={cn('', props.inputClassName)}
+            />
+            <Label
+              htmlFor={field.name}
+              className={cn(
+                'text-sm font-medium text-zinc-700',
+                fieldState.error && 'text-destructive',
+                props.labelClassName
+              )}
+            >
+              {props.label}
+            </Label>
+          </div>
+        ))
+
         // date picker
         .with('date', () => (
           <DatePicker
@@ -63,6 +87,25 @@ export default function InputField({ ...props }: InputFieldProps) {
             className={cn('', props.inputClassName)}
             futureDaysDisabled={props.futureDaysDisabled}
           />
+        ))
+
+        // input otp
+        .with('otp', () => (
+          <InputOTP maxLength={6} {...field} className={fieldState.error ? 'order-destructive' : ''}>
+            <InputOTPGroup className="flex w-full justify-between gap-2 sm:gap-4">
+              {[0, 1, 2, 3, 4, 5].map((index) => (
+                <InputOTPSlot
+                  key={index}
+                  index={index}
+                  className={cn(
+                    'border',
+                    fieldState.error && 'border-destructive! ring-destructive/20!',
+                    props.inputClassName
+                  )}
+                />
+              ))}
+            </InputOTPGroup>
+          </InputOTP>
         ))
 
         // select box
@@ -86,6 +129,7 @@ export default function InputField({ ...props }: InputFieldProps) {
           <Input
             id={field.name}
             {...field}
+            placeholder={props.placeholder}
             className={cn(
               '',
               fieldState.error &&
