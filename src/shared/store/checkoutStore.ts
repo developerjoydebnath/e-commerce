@@ -8,6 +8,7 @@ export type ShippingMethod = 'regular' | 'express';
 
 export interface SavedAddress {
   id: string;
+  name?: string;
   addressType: AddressType;
   phone: string;
   division: string;
