@@ -18,7 +18,6 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import MobileMenu from './MobileMenu';
 
 export default function Navigation({ isScrolled = false }: { isScrolled?: boolean }) {
@@ -114,73 +113,49 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
             </Link>
           </div>
 
-          <div className={cn('flex items-center gap-4', isScrolled ? 'md:flex' : 'md:hidden')}>
-            <Tooltip>
-              <TooltipTrigger>
-                <Link
-                  prefetch={false}
-                  href="/order-tracking"
-                  className="flex items-center gap-1 font-medium uppercase transition-colors hover:text-white/80"
-                >
-                  <Truck className="h-4 w-4" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Order Tracking</p>
-              </TooltipContent>
-            </Tooltip>
+          <div className={cn('flex items-center gap-2.5 sm:gap-4', isScrolled ? 'md:flex' : 'md:hidden')}>
+            <Link
+              prefetch={false}
+              href="/order-tracking"
+              title="Order Tracking"
+              className="flex items-center gap-1 font-medium uppercase transition-colors hover:text-white/80"
+            >
+              <Truck className="h-4 w-4" />
+            </Link>
 
             <span className="h-3 w-px bg-white/60"></span>
 
-            <Tooltip>
-              <TooltipTrigger>
-                <Link
-                  prefetch={false}
-                  href="/support"
-                  className="flex items-center gap-1 font-medium uppercase transition-colors hover:text-white/80"
-                >
-                  <Headset className="h-4 w-4" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Support</p>
-              </TooltipContent>
-            </Tooltip>
+            <Link
+              prefetch={false}
+              href="/support"
+              title="Support"
+              className="flex items-center gap-1 font-medium uppercase transition-colors hover:text-white/80"
+            >
+              <Headset className="h-4 w-4" />
+            </Link>
 
             <span className="h-3 w-px bg-white/60"></span>
 
-            <Tooltip>
-              <TooltipTrigger>
-                <Link
-                  prefetch={false}
-                  href="/faqs"
-                  className="font-medium uppercase transition-colors hover:text-white/80"
-                >
-                  <CircleQuestionMark className="h-4 w-4" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>FAQs</p>
-              </TooltipContent>
-            </Tooltip>
+            <Link
+              prefetch={false}
+              href="/faqs"
+              title="FAQs"
+              className="font-medium uppercase transition-colors hover:text-white/80"
+            >
+              <CircleQuestionMark className="h-4 w-4" />
+            </Link>
 
             <span className="h-3 w-px bg-white/60"></span>
 
             <DropdownMenu>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <DropdownMenuTrigger
-                    aria-label="Select language"
-                    className="flex cursor-pointer items-center gap-1 ring-0 outline-none hover:text-white/80 focus:ring-0 focus:outline-none"
-                  >
-                    <Languages size={16} />
-                    <ChevronDown size={12} />
-                  </DropdownMenuTrigger>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>Language</p>
-                </TooltipContent>
-              </Tooltip>
+              <DropdownMenuTrigger
+                aria-label="Select language"
+                title="Language"
+                className="flex cursor-pointer items-center gap-1 ring-0 outline-none hover:text-white/80 focus:ring-0 focus:outline-none"
+              >
+                <Languages size={16} />
+                <ChevronDown size={12} />
+              </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem onClick={() => setLanguage('English')}>English</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setLanguage('Spanish')}>Spanish</DropdownMenuItem>
@@ -191,41 +166,39 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
 
             <span className="h-3 w-px bg-white/60"></span>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex cursor-pointer items-center gap-1 hover:text-white/80"
-                  aria-label="Toggle theme"
-                >
-                  {mounted ? (
-                    theme === 'dark' ? (
-                      <Moon size={16} />
-                    ) : (
-                      <Sun size={16} />
-                    )
-                  ) : (
-                    <span className="bg-muted-foreground/20 block h-3.5 w-3.5 animate-pulse rounded-full"></span>
-                  )}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent side="bottom">
-                <p>Theme</p>
-              </TooltipContent>
-            </Tooltip>
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="flex cursor-pointer items-center gap-1 hover:text-white/80"
+              aria-label="Toggle theme"
+              title="Theme"
+            >
+              {mounted ? (
+                theme === 'dark' ? (
+                  <Moon size={16} />
+                ) : (
+                  <Sun size={16} />
+                )
+              ) : (
+                <span className="bg-muted-foreground/20 block h-3.5 w-3.5 animate-pulse rounded-full"></span>
+              )}
+            </button>
           </div>
         </motion.nav>
 
         {mounted && isAuthenticated && (
-          <div className="flex items-center gap-4 pl-4">
+          <div className="flex items-center gap-2.5 pl-2.5 sm:gap-4 sm:pl-4">
             <span className={cn('h-3 w-px bg-white/60', isScrolled ? 'md:flex' : 'md:hidden')}></span>
             <button
               onClick={logoutHandler}
               className="flex cursor-pointer items-center gap-1 hover:text-white/80"
               aria-label="Logout"
             >
-              <LogOut className={cn('transition-all duration-300', isScrolled ? 'h-3.5 w-3.5' : 'h-4 w-4')} />
-              <span className={cn('font-medium uppercase', isScrolled ? 'text-xs' : 'text-sm')}>Logout</span>
+              <LogOut
+                className={cn('transition-all duration-300', isScrolled ? 'h-3.5 w-3.5' : 'h-3.5 w-3.5 lg:h-4 lg:w-4')}
+              />
+              <span className={cn('hidden font-medium uppercase lg:flex', isScrolled ? 'text-xs' : 'text-sm')}>
+                Logout
+              </span>
             </button>
           </div>
         )}

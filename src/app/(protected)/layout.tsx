@@ -7,7 +7,7 @@ import { Menu } from 'lucide-react';
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="bg-background flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8 lg:py-12">

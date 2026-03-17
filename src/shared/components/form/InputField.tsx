@@ -111,7 +111,7 @@ export default function InputField({ ...props }: InputFieldProps) {
         // select box
         .with('select', () => (
           <Select value={field.value} onValueChange={field.onChange}>
-            <SelectTrigger id={field.name} className={cn('w-full', props.inputClassName)}>
+            <SelectTrigger id={field.name} className={cn('w-full shadow-none', props.inputClassName)}>
               <SelectValue placeholder={props.placeholder} />
             </SelectTrigger>
             <SelectContent position="popper">

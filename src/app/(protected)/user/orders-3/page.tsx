@@ -193,7 +193,7 @@ export default function MyOrdersPageV3() {
       case 'Pending':
         return 'text-amber-500 bg-amber-500/10';
       case 'Processing':
-        return 'text-zinc-500 bg-zinc-500/10';
+        return 'text-muted-foreground bg-muted';
       case 'Shipped':
         return 'text-blue-500 bg-blue-500/10';
       case 'Completed':
@@ -201,30 +201,32 @@ export default function MyOrdersPageV3() {
       case 'Canceled':
         return 'text-red-500 bg-red-500/10';
       default:
-        return 'text-zinc-400 bg-zinc-400/10';
+        return 'text-muted-foreground bg-muted';
     }
   };
 
   return (
-    <div className="min-h-screen bg-white px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <header className="mb-12">
-          <h1 className="text-4xl font-light tracking-tight text-zinc-900">Orders</h1>
-          <p className="mt-2 font-medium text-zinc-500">History & Tracking</p>
+          <h1 className="text-foreground text-4xl font-light tracking-tight">Orders</h1>
+          <p className="text-muted-foreground mt-2 font-medium">History & Tracking</p>
         </header>
 
         {/* Minimal Tabs */}
-        <nav className="mb-12 flex items-center gap-8 border-b border-zinc-100 pb-1">
+        <nav className="border-border mb-12 flex items-center gap-8 border-b pb-1">
           {TABS.map((tab) => (
             <button
               key={tab}
               onClick={() => handleTabChange(tab)}
               className={`relative pb-3 text-sm font-semibold transition-all ${
-                activeTab === tab ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'
+                activeTab === tab ? 'text-foreground' : 'text-muted-foreground hover:text-muted-foreground'
               }`}
             >
               {tab}
-              {activeTab === tab && <span className="absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-zinc-900" />}
+              {activeTab === tab && (
+                <span className="bg-foreground text-background absolute bottom-0 left-0 h-0.5 w-full rounded-full" />
+              )}
             </button>
           ))}
         </nav>
@@ -233,7 +235,7 @@ export default function MyOrdersPageV3() {
         <div className="space-y-12">
           {paginatedOrders.length > 0 ? (
             paginatedOrders.map((order) => (
-              <section key={order.id} className="group relative border-l border-zinc-100 pl-8 sm:pl-12">
+              <section key={order.id} className="group border-border relative border-l pl-8 sm:pl-12">
                 {/* Timeline Dot */}
                 <div
                   className={`absolute top-0 -left-1.5 h-3 w-3 rounded-full border-2 border-white ring-2 ${
@@ -241,7 +243,7 @@ export default function MyOrdersPageV3() {
                       ? 'bg-emerald-500 ring-emerald-500'
                       : order.status === 'Canceled'
                         ? 'bg-red-500 ring-red-500'
-                        : 'bg-white ring-zinc-200'
+                        : 'bg-background ring-border'
                   }`}
                 />
 
@@ -250,8 +252,8 @@ export default function MyOrdersPageV3() {
                   {/* Order Meta */}
                   <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                     <div className="space-y-1">
-                      <h2 className="text-xl font-bold text-zinc-900">{order.orderId}</h2>
-                      <div className="flex items-center gap-3 text-sm text-zinc-500">
+                      <h2 className="text-foreground text-xl font-bold">{order.orderId}</h2>
+                      <div className="text-muted-foreground flex items-center gap-3 text-sm">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" /> {order.date}
                         </span>
@@ -274,19 +276,19 @@ export default function MyOrdersPageV3() {
                     {order.items.map((item) => (
                       <div
                         key={item.id}
-                        className="relative flex flex-col rounded-xl border border-zinc-100 bg-zinc-50 p-4 transition-all hover:bg-zinc-100/50"
+                        className="border-border bg-muted/50 hover:bg-muted/50 relative flex flex-col rounded-xl border p-4 transition-all"
                       >
                         <Link href={`${publicRoutes.PRODUCT(item.productId)}`} className="absolute inset-0 z-10" />
-                        <div className="relative mb-3 aspect-square w-full overflow-hidden rounded-lg border border-zinc-100 bg-white shadow-sm">
+                        <div className="border-border bg-card relative mb-3 aspect-square w-full overflow-hidden rounded-lg border shadow-sm">
                           <Image src={item.image} alt={item.name} fill className="object-cover" />
                         </div>
-                        <h3 className="mb-1 line-clamp-1 text-xs font-bold text-zinc-900">{item.name}</h3>
-                        <p className="text-[10px] text-zinc-500">
+                        <h3 className="text-foreground mb-1 line-clamp-1 text-xs font-bold">{item.name}</h3>
+                        <p className="text-muted-foreground text-[10px]">
                           Qty: {item.quantity} • ৳{item.price.toLocaleString()}
                         </p>
 
                         {order.status === 'Completed' && (
-                          <div className="relative z-20 mt-4 flex items-center justify-between border-t border-zinc-200/50 pt-4">
+                          <div className="border-border/50 relative z-20 mt-4 flex items-center justify-between border-t pt-4">
                             <span className="text-primary text-[10px] font-bold tracking-tight uppercase">
                               {hasReviewed(item.productId) ? 'Reviewed' : 'Awaiting Review'}
                             </span>
@@ -310,13 +312,13 @@ export default function MyOrdersPageV3() {
                   <div className="mt-2 flex flex-wrap items-center gap-4 py-4">
                     <Button
                       variant="outline"
-                      className="h-9 rounded-full border-zinc-200 px-6 text-xs font-bold tracking-widest uppercase transition-all hover:bg-zinc-950 hover:text-white"
+                      className="border-border hover:bg-foreground text-background h-9 rounded-full px-6 text-xs font-bold tracking-widest uppercase transition-all hover:text-white"
                     >
                       Details <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
-                      className="h-9 px-4 text-xs font-bold tracking-widest text-zinc-500 uppercase hover:text-zinc-900"
+                      className="text-muted-foreground hover:text-foreground h-9 px-4 text-xs font-bold tracking-widest uppercase"
                     >
                       Print Invoice <Printer className="ml-2 h-4 w-4 opacity-50" />
                     </Button>
@@ -350,15 +352,15 @@ export default function MyOrdersPageV3() {
               </section>
             ))
           ) : (
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-200 bg-zinc-50 px-6 py-20 text-center">
-              <Package className="mb-6 h-16 w-16 text-zinc-200" />
-              <h2 className="mb-2 text-2xl font-light text-zinc-900">Clean Slate</h2>
-              <p className="mx-auto mb-8 max-w-xs text-sm text-zinc-500">
+            <div className="border-border bg-muted/50 flex flex-col items-center justify-center rounded-3xl border border-dashed px-6 py-20 text-center">
+              <Package className="text-muted-foreground mb-6 h-16 w-16" />
+              <h2 className="text-foreground mb-2 text-2xl font-light">Clean Slate</h2>
+              <p className="text-muted-foreground mx-auto mb-8 max-w-xs text-sm">
                 No orders found in this category. Time for some fresh gear?
               </p>
               <Button
                 asChild
-                className="h-12 rounded-full bg-zinc-950 px-10 text-sm font-bold tracking-widest uppercase"
+                className="bg-foreground text-background h-12 rounded-full px-10 text-sm font-bold tracking-widest uppercase"
               >
                 <Link href={publicRoutes.SHOP}>Shop Collection</Link>
               </Button>
@@ -368,8 +370,8 @@ export default function MyOrdersPageV3() {
 
         {/* Minimalist Pagination */}
         {totalPages > 1 && (
-          <footer className="mt-20 flex items-center justify-center border-t border-zinc-100 pt-8">
-            <div className="flex items-center rounded-full border border-zinc-100 bg-zinc-50 p-1.5 shadow-sm">
+          <footer className="border-border mt-20 flex items-center justify-center border-t pt-8">
+            <div className="border-border bg-muted/50 flex items-center rounded-full border p-1.5 shadow-sm">
               <Button
                 variant="ghost"
                 size="sm"
@@ -380,9 +382,9 @@ export default function MyOrdersPageV3() {
                 Back
               </Button>
               <div className="flex items-center gap-2 px-4">
-                <span className="text-[10px] font-bold text-zinc-900">{currentPage}</span>
-                <span className="text-[10px] text-zinc-300">/</span>
-                <span className="text-[10px] font-bold text-zinc-400">{totalPages}</span>
+                <span className="text-foreground text-[10px] font-bold">{currentPage}</span>
+                <span className="text-muted-foreground text-[10px]">/</span>
+                <span className="text-muted-foreground text-[10px] font-bold">{totalPages}</span>
               </div>
               <Button
                 variant="ghost"

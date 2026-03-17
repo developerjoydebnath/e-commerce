@@ -27,7 +27,7 @@ export default function DatePicker({
           variant="secondary"
           size="lg"
           className={cn(
-            'hover:bg-gray-25/5 h-9 w-full justify-start border bg-transparent text-sm text-gray-600',
+            'hover:bg-gray-25/5 dark:bg-input/30 border-input h-9 w-full justify-start border bg-transparent text-sm text-gray-600',
             className
           )}
         >

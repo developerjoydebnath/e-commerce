@@ -30,7 +30,7 @@ export default function AddressBookPage() {
   return (
     <div className="flex flex-col gap-6 lg:pr-10">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-zinc-900">Address Book</h1>
+        <h1 className="text-foreground text-2xl font-bold">Address Book</h1>
         {!showForm && (
           <Button className="h-10 font-medium" onClick={handleAddNew}>
             Add New Address
@@ -43,15 +43,15 @@ export default function AddressBookPage() {
           {store.savedAddresses.length > 0 ? (
             store.savedAddresses.map((addr) => {
               return (
-                <div key={addr.id} className="relative flex flex-col gap-4 rounded-xl border border-zinc-200 p-5">
+                <div key={addr.id} className="border-border relative flex flex-col gap-4 rounded-xl border p-5">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
-                      <MapPin className="h-5 w-5 text-zinc-900" />
-                      <span className="text-lg font-semibold text-zinc-900">{addr.addressType}</span>
+                      <MapPin className="text-foreground h-5 w-5" />
+                      <span className="text-foreground text-lg font-semibold">{addr.addressType}</span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1 text-sm text-zinc-600">
+                  <div className="text-muted-foreground flex flex-col gap-1 text-sm">
                     <span>{addr.phone}</span>
                     <span>{addr.fullAddress}</span>
                     <span>
@@ -71,7 +71,7 @@ export default function AddressBookPage() {
                     >
                       <Edit className="h-3 w-3" /> Edit
                     </Button>
-                    <span className="h-4 w-px bg-zinc-300"></span>
+                    <span className="bg-border h-4 w-px"></span>
                     <ConfirmationDialog
                       title="Delete Address"
                       description="Are you sure you want to delete this address?"
@@ -91,8 +91,8 @@ export default function AddressBookPage() {
               );
             })
           ) : (
-            <div className="col-span-full rounded-lg border border-dashed border-zinc-300 bg-zinc-50 py-12 text-center">
-              <p className="text-zinc-500">No saved addresses found.</p>
+            <div className="border-border bg-muted/50 col-span-full rounded-lg border border-dashed py-12 text-center">
+              <p className="text-muted-foreground">No saved addresses found.</p>
               <Button variant="link" onClick={handleAddNew} className="text-primary mt-2">
                 Add your first address
               </Button>

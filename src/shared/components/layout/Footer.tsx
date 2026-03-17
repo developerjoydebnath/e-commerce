@@ -66,7 +66,7 @@ export default function Footer() {
                   <Link
                     prefetch={false}
                     href={item.href}
-                    className="hover:text-primary text-zinc-400 transition-colors hover:underline"
+                    className="hover:text-primary text-zinc-400 transition-colors"
                   >
                     <span className="mr-2 text-zinc-600">•</span>
                     {item.name}
@@ -92,11 +92,7 @@ export default function Footer() {
                 'About Us',
               ].map((item, index) => (
                 <li key={index}>
-                  <Link
-                    prefetch={false}
-                    href="#"
-                    className="hover:text-primary text-zinc-400 transition-colors hover:underline"
-                  >
+                  <Link prefetch={false} href="#" className="hover:text-primary text-zinc-400 transition-colors">
                     <span className="mr-2 text-zinc-600">•</span>
                     {item}
                   </Link>
@@ -175,7 +171,9 @@ export default function Footer() {
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-zinc-500">
             Copyright &copy; 2024 All rights reserved by{' '}
-            <span className="text-primary cursor-pointer hover:underline">Codenixx.com</span>
+            <Link href="https://stackrover.com" target="_blank" className="text-primary cursor-pointer hover:underline">
+              stackRover.com
+            </Link>
           </p>
         </div>
       </div>

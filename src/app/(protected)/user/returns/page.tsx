@@ -203,7 +203,7 @@ export default function MyReturnsPage() {
       case 'Rejected':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-zinc-100 text-zinc-800';
+        return 'bg-muted text-foreground';
     }
   };
 
@@ -211,8 +211,8 @@ export default function MyReturnsPage() {
     <div className="flex flex-col gap-6 lg:pr-10">
       <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold text-zinc-900">My Returns</h1>
-          <p className="text-sm text-zinc-500">Track and manage your returned items and refund statuses.</p>
+          <h1 className="text-2xl font-bold text-foreground">My Returns</h1>
+          <p className="text-sm text-muted-foreground">Track and manage your returned items and refund statuses.</p>
         </div>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -267,24 +267,27 @@ export default function MyReturnsPage() {
       <div className="flex flex-col gap-6">
         {paginatedReturns.length > 0 ? (
           paginatedReturns.map((record) => (
-            <div key={record.id} className="flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white">
+            <div
+              key={record.id}
+              className="border-border bg-card text-card-foreground flex flex-col overflow-hidden rounded-xl border"
+            >
               {/* Card Header */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-100 bg-zinc-50 px-6 py-4 sm:flex-nowrap">
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border bg-muted/50 px-6 py-4 sm:flex-nowrap">
                 <div className="flex flex-wrap items-center gap-6">
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Return ID</span>
-                    <span className="font-semibold text-zinc-900">{record.returnId}</span>
+                    <span className="text-xs text-muted-foreground uppercase">Return ID</span>
+                    <span className="font-semibold text-foreground">{record.returnId}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Original Order</span>
-                    <span className="font-medium text-zinc-700">{record.orderId}</span>
+                    <span className="text-xs text-muted-foreground uppercase">Original Order</span>
+                    <span className="font-medium text-muted-foreground">{record.orderId}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Date Requested</span>
-                    <span className="font-medium text-zinc-700">{record.date}</span>
+                    <span className="text-xs text-muted-foreground uppercase">Date Requested</span>
+                    <span className="font-medium text-muted-foreground">{record.date}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Est. Refund</span>
+                    <span className="text-xs text-muted-foreground uppercase">Est. Refund</span>
                     <span className="text-primary font-medium tracking-tight">
                       ৳ {record.refundAmount.toLocaleString()}
                     </span>
@@ -305,9 +308,9 @@ export default function MyReturnsPage() {
                 {record.items.map((item, index) => (
                   <div
                     key={item.id}
-                    className={`flex flex-col items-center gap-4 py-4 sm:flex-row ${index > 0 ? 'border-t border-zinc-100' : ''}`}
+                    className={`flex flex-col items-center gap-4 py-4 sm:flex-row ${index > 0 ? 'border-t border-border' : ''}`}
                   >
-                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-zinc-200">
+                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-border">
                       <Image src={item.image} alt={item.name} fill className="object-cover" />
                     </div>
 
@@ -315,11 +318,11 @@ export default function MyReturnsPage() {
                       <div className="flex flex-col">
                         <Link
                           href={`${publicRoutes.PRODUCT(item.productId)}`}
-                          className="hover:text-primary line-clamp-2 font-semibold text-zinc-900 transition-colors"
+                          className="hover:text-primary line-clamp-2 font-semibold text-foreground transition-colors"
                         >
                           {item.name}
                         </Link>
-                        <span className="text-sm text-zinc-500">
+                        <span className="text-sm text-muted-foreground">
                           Qty: {item.quantity} • ৳ {item.price.toLocaleString()} each
                         </span>
                       </div>
@@ -329,10 +332,10 @@ export default function MyReturnsPage() {
               </div>
 
               {/* Card Footer - Reason */}
-              <div className="flex items-center justify-between border-t border-zinc-100 bg-zinc-50 px-6 py-3">
+              <div className="flex items-center justify-between border-t border-border bg-muted/50 px-6 py-3">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <span className="text-xs font-medium text-zinc-500">Reason for Return:</span>
-                  <span className="text-sm text-zinc-800">{record.reason}</span>
+                  <span className="text-xs font-medium text-muted-foreground">Reason for Return:</span>
+                  <span className="text-sm text-foreground">{record.reason}</span>
                 </div>
 
                 {record.status === 'Rejected' && (
@@ -344,10 +347,10 @@ export default function MyReturnsPage() {
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-200 bg-zinc-50 p-12">
-            <RotateCcw className="mb-4 h-12 w-12 text-zinc-400" />
-            <p className="text-lg font-medium text-zinc-900">No returns found</p>
-            <p className="max-w-sm text-center text-sm text-zinc-500">You haven&apos;t filed any returns yet.</p>
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border bg-muted/50 p-12">
+            <RotateCcw className="mb-4 h-12 w-12 text-muted-foreground" />
+            <p className="text-lg font-medium text-foreground">No returns found</p>
+            <p className="max-w-sm text-center text-sm text-muted-foreground">You haven&apos;t filed any returns yet.</p>
             <Button asChild className="mt-6 rounded-full px-8">
               <Link href={publicRoutes.SHOP}>Continue Shopping</Link>
             </Button>
@@ -375,7 +378,7 @@ export default function MyReturnsPage() {
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium transition-colors ${
-                    currentPage === i + 1 ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-100'
+                    currentPage === i + 1 ? 'bg-foreground text-background' : 'text-muted-foreground hover:bg-muted'
                   }`}
                 >
                   {i + 1}

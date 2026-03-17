@@ -175,17 +175,17 @@ export default function MyOrdersPage() {
       case 'Canceled':
         return 'bg-red-100 text-red-800';
       default:
-        return 'bg-zinc-100 text-zinc-800';
+        return 'bg-muted text-foreground';
     }
   };
 
   return (
     <div className="flex flex-col gap-6 lg:pr-10">
       <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold text-zinc-900">My Orders</h1>
+        <h1 className="text-foreground text-2xl font-bold">My Orders</h1>
 
         {/* Status Tabs */}
-        <div className="hide-scrollbar flex w-full overflow-x-auto border-b border-zinc-200">
+        <div className="hide-scrollbar border-border flex w-full overflow-x-auto border-b">
           {TABS.map((tab) => (
             <button
               key={tab}
@@ -193,7 +193,7 @@ export default function MyOrdersPage() {
               className={`mr-6 border-b-2 px-1 pb-3 text-sm font-medium whitespace-nowrap transition-colors ${
                 activeTab === tab
                   ? 'border-primary text-primary'
-                  : 'border-transparent text-zinc-500 hover:text-zinc-900'
+                  : 'text-muted-foreground hover:text-foreground border-transparent'
               }`}
             >
               {tab}
@@ -207,20 +207,23 @@ export default function MyOrdersPage() {
       <div className="flex flex-col gap-6">
         {paginatedOrders.length > 0 ? (
           paginatedOrders.map((order) => (
-            <div key={order.id} className="flex flex-col overflow-hidden rounded-xl border border-zinc-200 bg-white">
+            <div
+              key={order.id}
+              className="border-border bg-card text-card-foreground flex flex-col overflow-hidden rounded-xl border"
+            >
               {/* Card Header */}
-              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-100 bg-zinc-50 px-6 py-4 sm:flex-nowrap">
+              <div className="border-border bg-muted/50 flex flex-wrap items-center justify-between gap-4 border-b px-6 py-4 sm:flex-nowrap">
                 <div className="flex items-center gap-6">
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Order ID</span>
-                    <span className="font-semibold text-zinc-900">{order.orderId}</span>
+                    <span className="text-muted-foreground text-xs uppercase">Order ID</span>
+                    <span className="text-foreground font-semibold">{order.orderId}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Order Date</span>
-                    <span className="font-medium text-zinc-700">{order.date}</span>
+                    <span className="text-muted-foreground text-xs uppercase">Order Date</span>
+                    <span className="text-muted-foreground font-medium">{order.date}</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs text-zinc-500 uppercase">Total Amount</span>
+                    <span className="text-muted-foreground text-xs uppercase">Total Amount</span>
                     <span className="text-primary font-medium tracking-tight">
                       ৳ {order.totalPrice.toLocaleString()}
                     </span>
@@ -241,9 +244,9 @@ export default function MyOrdersPage() {
                 {order.items.map((item, index) => (
                   <div
                     key={item.id}
-                    className={`flex flex-col items-center gap-4 py-4 sm:flex-row ${index > 0 ? 'border-t border-zinc-100' : ''}`}
+                    className={`flex flex-col items-center gap-4 py-4 sm:flex-row ${index > 0 ? 'border-border border-t' : ''}`}
                   >
-                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border border-zinc-200">
+                    <div className="border-border relative h-20 w-20 shrink-0 overflow-hidden rounded-md border">
                       <Image src={item.image} alt={item.name} fill className="object-cover" />
                     </div>
 
@@ -251,11 +254,11 @@ export default function MyOrdersPage() {
                       <div className="flex flex-col">
                         <Link
                           href={`${publicRoutes.PRODUCT(item.productId)}`}
-                          className="hover:text-primary line-clamp-2 font-semibold text-zinc-900 transition-colors"
+                          className="hover:text-primary text-foreground line-clamp-2 font-semibold transition-colors"
                         >
                           {item.name}
                         </Link>
-                        <span className="text-sm text-zinc-500">
+                        <span className="text-muted-foreground text-sm">
                           Qty: {item.quantity} • ৳ {item.price.toLocaleString()} each
                         </span>
                       </div>
@@ -268,13 +271,13 @@ export default function MyOrdersPage() {
                           onClick={() => !hasReviewed(item.productId) && openReviewModal(item)}
                           className={
                             hasReviewed(item.productId)
-                              ? 'text-zinc-500'
+                              ? 'text-muted-foreground'
                               : 'text-primary border-primary/20 hover:bg-primary/5'
                           }
                         >
                           {hasReviewed(item.productId) ? (
                             <>
-                              Reviewed <Star className="ml-1 h-3 w-3 fill-zinc-400 text-zinc-400" />
+                              Reviewed <Star className="fill-muted-foreground text-muted-foreground ml-1 h-3 w-3" />
                             </>
                           ) : (
                             'Write a Review'
@@ -287,8 +290,8 @@ export default function MyOrdersPage() {
               </div>
 
               {/* Card Footer - Actions */}
-              <div className="flex items-center justify-between border-t border-zinc-100 bg-zinc-50 px-6 py-4">
-                <Button variant="ghost" className="-ml-2 h-9 px-3 text-zinc-600 hover:text-zinc-900">
+              <div className="border-border bg-muted/50 flex items-center justify-between border-t px-6 py-4">
+                <Button variant="ghost" className="text-muted-foreground hover:text-foreground -ml-2 h-9 px-3">
                   <Printer className="mr-2 h-4 w-4" /> Print Receipt
                 </Button>
 
@@ -315,17 +318,19 @@ export default function MyOrdersPage() {
                   )}
 
                   {order.status === 'Canceled' && (
-                    <span className="hidden text-sm text-zinc-500 sm:inline-block">This order was canceled.</span>
+                    <span className="text-muted-foreground hidden text-sm sm:inline-block">
+                      This order was canceled.
+                    </span>
                   )}
                 </div>
               </div>
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-200 bg-zinc-50 p-12">
-            <Package className="mb-4 h-12 w-12 text-zinc-400" />
-            <p className="text-lg font-medium text-zinc-900">No orders found</p>
-            <p className="max-w-sm text-center text-sm text-zinc-500">
+          <div className="border-border bg-muted/50 flex flex-col items-center justify-center rounded-xl border border-dashed p-12">
+            <Package className="text-muted-foreground mb-4 h-12 w-12" />
+            <p className="text-foreground text-lg font-medium">No orders found</p>
+            <p className="text-muted-foreground max-w-sm text-center text-sm">
               We couldn&apos;t find any orders matching the &quot;{activeTab}&quot; status.
             </p>
             <Button asChild className="mt-6 rounded-full px-8">
@@ -355,7 +360,7 @@ export default function MyOrdersPage() {
                   key={i}
                   onClick={() => setCurrentPage(i + 1)}
                   className={`flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium transition-colors ${
-                    currentPage === i + 1 ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-100'
+                    currentPage === i + 1 ? 'bg-foreground text-background' : 'text-muted-foreground hover:bg-muted'
                   }`}
                 >
                   {i + 1}

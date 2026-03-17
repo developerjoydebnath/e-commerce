@@ -165,8 +165,8 @@ export default function MyOrdersPage() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-8 lg:px-0">
       <div className="flex flex-col gap-1">
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">My Orders</h1>
-        <p className="text-sm text-zinc-500">Track, manage and review your recent purchases.</p>
+        <h1 className="text-foreground text-3xl font-extrabold tracking-tight sm:text-4xl">My Orders</h1>
+        <p className="text-muted-foreground text-sm">Track, manage and review your recent purchases.</p>
       </div>
 
       {/* Status Tabs - Glassmorphism Style */}
@@ -179,13 +179,13 @@ export default function MyOrdersPage() {
               className={`relative rounded-full px-5 py-2 text-sm font-semibold whitespace-nowrap transition-all duration-300 ${
                 activeTab === tab
                   ? 'bg-primary shadow-primary/25 ring-primary/10 text-white shadow-lg ring-2'
-                  : 'border border-zinc-100 bg-white/80 text-zinc-500 shadow-sm hover:bg-white hover:text-zinc-900'
+                  : 'border-border bg-card/80 text-muted-foreground hover:bg-card hover:text-foreground border shadow-sm'
               }`}
             >
               {tab}
               {tab === 'All' && (
                 <span
-                  className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-zinc-100 text-zinc-500'}`}
+                  className={`ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${activeTab === tab ? 'bg-white/20 text-white' : 'bg-muted text-muted-foreground'}`}
                 >
                   {MOCK_ORDERS.length}
                 </span>
@@ -201,7 +201,7 @@ export default function MyOrdersPage() {
           paginatedOrders.map((order) => (
             <div
               key={order.id}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50"
+              className="group border-border bg-card text-card-foreground hover:shadow-primary/10 relative flex flex-col overflow-hidden rounded-2xl border shadow-sm transition-all duration-300 hover:shadow-xl"
             >
               {/* Status Badge - Absolute on Mobile, Top Right */}
               <div className="absolute top-4 right-4 z-10">
@@ -235,13 +235,13 @@ export default function MyOrdersPage() {
               <div className="flex flex-col p-5 sm:p-6">
                 {/* Header Info */}
                 <div className="mb-6 flex flex-col gap-1 pr-24">
-                  <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">
+                  <span className="text-muted-foreground text-[10px] font-bold tracking-widest uppercase">
                     Order {order.orderId}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-zinc-900">৳{order.totalPrice.toLocaleString()}</span>
-                    <span className="text-xs text-zinc-400">•</span>
-                    <span className="text-xs font-medium text-zinc-500">{order.date}</span>
+                    <span className="text-foreground text-xl font-bold">৳{order.totalPrice.toLocaleString()}</span>
+                    <span className="text-muted-foreground text-xs">•</span>
+                    <span className="text-muted-foreground text-xs font-medium">{order.date}</span>
                   </div>
                 </div>
 
@@ -249,7 +249,7 @@ export default function MyOrdersPage() {
                 <div className="space-y-4">
                   {order.items.map((item) => (
                     <div key={item.id} className="flex items-center gap-4 transition-opacity group-hover:opacity-100">
-                      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-zinc-100 bg-zinc-50 shadow-inner">
+                      <div className="border-border bg-muted/50 relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border shadow-inner">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -261,11 +261,11 @@ export default function MyOrdersPage() {
                       <div className="flex min-w-0 flex-1 flex-col justify-center">
                         <Link
                           href={`${publicRoutes.PRODUCT(item.productId)}`}
-                          className="hover:text-primary line-clamp-1 text-sm font-bold text-zinc-900 transition-colors"
+                          className="hover:text-primary text-foreground line-clamp-1 text-sm font-bold transition-colors"
                         >
                           {item.name}
                         </Link>
-                        <div className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
+                        <div className="text-muted-foreground mt-1 flex items-center gap-2 text-xs">
                           <span>Qty: {item.quantity}</span>
                           <span>•</span>
                           <span>৳{item.price.toLocaleString()}</span>
@@ -301,8 +301,8 @@ export default function MyOrdersPage() {
               </div>
 
               {/* Card Actions - Compact Footer */}
-              <div className="mt-auto grid grid-cols-2 divide-x divide-zinc-100 border-t border-zinc-100 bg-zinc-50/50">
-                <button className="flex h-12 items-center justify-center gap-2 text-[10px] font-bold tracking-widest text-zinc-500 uppercase transition-colors hover:bg-zinc-100 hover:text-zinc-900">
+              <div className="divide-border border-border bg-muted/50 mt-auto grid grid-cols-2 divide-x border-t">
+                <button className="text-muted-foreground hover:bg-muted hover:text-foreground flex h-12 items-center justify-center gap-2 text-[10px] font-bold tracking-widest uppercase transition-colors">
                   <Printer className="h-4 w-4" /> Receipt
                 </button>
 
@@ -319,7 +319,7 @@ export default function MyOrdersPage() {
                     <Truck className="h-4 w-4" /> Track
                   </button>
                 ) : (
-                  <div className="flex h-12 items-center justify-center px-4 text-[10px] font-bold tracking-widest text-zinc-400 uppercase italic">
+                  <div className="text-muted-foreground flex h-12 items-center justify-center px-4 text-[10px] font-bold tracking-widest uppercase italic">
                     Closed
                   </div>
                 )}
@@ -327,17 +327,17 @@ export default function MyOrdersPage() {
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-200 bg-zinc-50 px-6 py-20 text-center">
-            <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-sm ring-4 ring-zinc-100">
-              <Package className="h-10 w-10 text-zinc-300" />
+          <div className="border-border bg-muted/50 flex flex-col items-center justify-center rounded-3xl border border-dashed px-6 py-20 text-center">
+            <div className="bg-background ring-muted mb-6 flex h-20 w-20 items-center justify-center rounded-full shadow-sm ring-4">
+              <Package className="text-muted-foreground h-10 w-10" />
             </div>
-            <h3 className="text-xl font-bold text-zinc-900">No orders yet</h3>
-            <p className="mt-2 max-w-[240px] text-sm text-zinc-500">
+            <h3 className="text-foreground text-xl font-bold">No orders yet</h3>
+            <p className="text-muted-foreground mt-2 max-w-[240px] text-sm">
               Looks like you haven&apos;t placed any orders in this category yet.
             </p>
             <Button
               asChild
-              className="mt-8 rounded-full bg-zinc-900 px-8 py-6 text-sm font-bold transition-transform hover:scale-105 active:scale-95"
+              className="bg-foreground text-background mt-8 rounded-full px-8 py-6 text-sm font-bold transition-transform hover:scale-105 active:scale-95"
             >
               <Link href={publicRoutes.SHOP}>Start Shopping</Link>
             </Button>
@@ -347,13 +347,13 @@ export default function MyOrdersPage() {
 
       {/* Pagination - Minimalist */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-zinc-100 pt-8 pb-4">
+        <div className="border-border flex items-center justify-between border-t pt-8 pb-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="h-10 px-4 text-xs font-bold tracking-widest text-zinc-500 uppercase hover:text-zinc-900"
+            className="text-muted-foreground hover:text-foreground h-10 px-4 text-xs font-bold tracking-widest uppercase"
           >
             Prev
           </Button>
@@ -364,7 +364,9 @@ export default function MyOrdersPage() {
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
                 className={`h-8 w-8 rounded-full text-xs font-bold transition-all ${
-                  currentPage === i + 1 ? 'bg-zinc-900 text-white shadow-md' : 'text-zinc-400 hover:bg-zinc-100'
+                  currentPage === i + 1
+                    ? 'bg-foreground text-background shadow-md'
+                    : 'text-muted-foreground hover:bg-muted'
                 }`}
               >
                 {i + 1}
@@ -377,7 +379,7 @@ export default function MyOrdersPage() {
             size="sm"
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="h-10 px-4 text-xs font-bold tracking-widest text-zinc-500 uppercase hover:text-zinc-900"
+            className="text-muted-foreground hover:text-foreground h-10 px-4 text-xs font-bold tracking-widest uppercase"
           >
             Next
           </Button>

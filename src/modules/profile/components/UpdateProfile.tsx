@@ -27,7 +27,7 @@ export default function UpdateProfile() {
 
   return (
     <section className="flex flex-col gap-6 pt-4">
-      <h2 className="text-xl font-bold text-zinc-900">Personal Information</h2>
+      <h2 className="text-foreground text-xl font-bold">Personal Information</h2>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 grid grid-cols-1 gap-x-6 gap-y-6 md:grid-cols-2">
         {PROFILE_FORM_FIELDS.BASIC.map((field) => (

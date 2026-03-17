@@ -53,7 +53,7 @@ export default function OrderTrackingPage() {
         {/* Tracking Form */}
         <div className="mb-16">
           <Card className="rounded-lg border-zinc-200 bg-white p-0 shadow-2xl shadow-zinc-200/50 sm:p-2 md:rounded-xl">
-            <CardContent className="p-6 sm:p-8 md:p-12">
+            <CardContent className="p-6 md:p-8">
               <form onSubmit={handleSearch} className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-end">
                 <div className="space-y-2">
                   <Label htmlFor="order-id" className="text-xs font-black tracking-widest text-zinc-400 uppercase">

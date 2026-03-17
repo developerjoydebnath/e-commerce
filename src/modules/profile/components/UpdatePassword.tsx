@@ -23,8 +23,8 @@ export default function UpdatePassword() {
   };
 
   return (
-    <section className="flex flex-col gap-6 border-t border-zinc-100 pt-4">
-      <h2 className="text-xl font-bold text-zinc-900">Change Password</h2>
+    <section className="border-border flex flex-col gap-6 border-t pt-4">
+      <h2 className="text-foreground text-xl font-bold">Change Password</h2>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-6">
         <div className="grid grid-cols-1 gap-6">
