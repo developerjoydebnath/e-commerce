@@ -69,7 +69,7 @@ export default function HeroSection() {
             <CarouselContent>
               {heroSlides.map((slide) => (
                 <CarouselItem key={slide.id}>
-                  <div className="relative aspect-16/6 w-full overflow-hidden rounded-xl md:aspect-16/7 lg:aspect-16/8">
+                  <div className="relative aspect-video w-full overflow-hidden rounded-xl md:aspect-16/8 lg:aspect-16/8">
                     <Image src={slide.image} alt={slide.alt} fill className="object-cover" priority={slide.id === 1} />
                   </div>
                 </CarouselItem>
@@ -86,7 +86,7 @@ export default function HeroSection() {
             If desktop is col-span-4, we can fit 2x2 nicely or 4 stacked. 
             Let's try 2 cols on mobile, 1 col on desktop (stacked)? No, 2x2 is better for aspect ratio.
         */}
-        <div className="col-span-1 grid grid-cols-4 gap-4 lg:col-span-4 lg:grid-cols-2">
+        <div className="col-span-1 grid grid-cols-4 gap-2 sm:grid-cols-4 sm:gap-4 lg:col-span-4 lg:grid-cols-2">
           {promoImages.map((promo) => (
             <div
               key={promo.id}

@@ -130,7 +130,7 @@ export default function QuickAddModal({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent className="overflow-hidden rounded-xl border-none p-0 sm:max-w-3xl">
+        <DialogContent className="max-h-[90vh] overflow-y-auto rounded-xl border-none p-0 sm:max-w-3xl">
           <div className="flex h-full flex-col md:flex-row">
             {/* Left: Image */}
             <div className="bg-muted relative aspect-square h-64 w-full md:aspect-auto md:h-auto md:w-5/12">
@@ -138,11 +138,13 @@ export default function QuickAddModal({
             </div>
 
             {/* Right: Info & Selection */}
-            <div className="flex w-full flex-col gap-6 p-6 md:w-7/12">
+            <div className="flex w-full flex-col gap-4 p-4 sm:gap-6 sm:p-6 md:w-7/12">
               <DialogHeader>
-                <DialogTitle className="line-clamp-2 text-xl leading-tight font-bold">{product.name}</DialogTitle>
-                <div className="mt-2 flex items-baseline gap-3">
-                  <span className="text-primary text-2xl font-bold">${currentPrice.toFixed(2)}</span>
+                <DialogTitle className="line-clamp-2 text-left text-base leading-tight font-bold sm:text-lg md:text-xl">
+                  {product.name}
+                </DialogTitle>
+                <div className="flex items-baseline gap-3 sm:mt-2">
+                  <span className="text-primary text-xl font-bold sm:text-2xl">${currentPrice.toFixed(2)}</span>
                   {currentOriginalPrice && (
                     <span className="text-muted-foreground text-sm line-through">
                       ${currentOriginalPrice.toFixed(2)}
@@ -151,11 +153,11 @@ export default function QuickAddModal({
                 </div>
               </DialogHeader>
 
-              <div className="flex-1 space-y-6">
+              <div className="flex-1 space-y-4 sm:space-y-6">
                 {product.attributes.map((attr) => (
                   <div key={attr.name} className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <label className="text-muted-foreground text-sm font-semibold tracking-wider uppercase">
+                      <label className="text-muted-foreground text-xs font-semibold tracking-wider uppercase sm:text-sm">
                         {attr.name}:{' '}
                         <span className="text-foreground">{selectedAttributes[attr.name.toLowerCase()]}</span>
                       </label>
@@ -192,8 +194,8 @@ export default function QuickAddModal({
                             className={cn(
                               'relative flex items-center justify-center overflow-hidden transition-all duration-200',
                               isColor
-                                ? 'h-10 w-10 rounded-md border-2'
-                                : 'min-w-10 rounded-md border px-3 py-2 text-sm font-medium',
+                                ? 'h-8 w-8 rounded-md border-2 sm:h-10 sm:w-10'
+                                : 'min-w-8 rounded-md border px-3 py-2 text-xs font-medium sm:min-w-10 sm:text-sm',
                               isSelected
                                 ? isColor
                                   ? 'border-primary ring-primary/20 ring-2 ring-offset-1'
@@ -218,9 +220,9 @@ export default function QuickAddModal({
                   </div>
                 ))}
 
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div className="flex items-center gap-4">
-                    <div className="bg-muted/30 flex h-12 items-center rounded-lg border">
+                    <div className="bg-muted/30 flex h-10 items-center rounded-lg border sm:h-12">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                         aria-label="Decrease quantity"
@@ -228,7 +230,7 @@ export default function QuickAddModal({
                       >
                         <Minus size={16} />
                       </button>
-                      <span className="w-10 text-center text-lg font-bold select-none">{quantity}</span>
+                      <span className="w-10 text-center text-base font-bold select-none sm:text-lg">{quantity}</span>
                       <button
                         onClick={() => setQuantity(quantity + 1)}
                         aria-label="Increase quantity"
@@ -240,7 +242,7 @@ export default function QuickAddModal({
                     {selectedVariant && (
                       <p
                         className={cn(
-                          'text-xs font-medium',
+                          'text-sm font-medium',
                           selectedVariant.stock > 0 ? 'text-green-600' : 'text-red-500'
                         )}
                       >
@@ -251,29 +253,33 @@ export default function QuickAddModal({
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 border-t pt-4">
+              <div className="flex flex-col gap-2 border-t pt-4 sm:gap-3">
                 {mode === 'add' ? (
                   <>
                     <Button
                       onClick={handleAddToCart}
                       disabled={!selectedVariant || !selectedVariant.inStock}
-                      className="shadow-primary/10 h-12 w-full gap-2 text-base font-bold shadow-lg"
+                      className="shadow-primary/10 h-10 w-full gap-2 text-base font-bold shadow-lg sm:h-12"
                     >
                       <ShoppingCart size={18} />
                       {selectedVariant && !selectedVariant.inStock
                         ? 'Out of Stock'
                         : `Add to Cart — $${totalPrice.toFixed(2)}`}
                     </Button>
-                    <div className="flex gap-3">
+                    <div className="flex gap-2 sm:gap-3">
                       <Button
                         onClick={handleBuyNow}
                         disabled={!selectedVariant || !selectedVariant.inStock}
                         variant="secondary"
-                        className="h-12 flex-1 gap-2 border-none bg-red-500 text-base font-bold text-white shadow-lg shadow-red-500/10 hover:bg-red-600 disabled:bg-gray-400"
+                        className="h-10 flex-1 gap-2 border-none bg-red-500 text-base font-bold text-white shadow-lg shadow-red-500/10 hover:bg-red-600 disabled:bg-gray-400 sm:h-12"
                       >
                         {selectedVariant && !selectedVariant.inStock ? 'Unavailable' : 'Buy It Now'}
                       </Button>
-                      <Button variant="outline" onClick={handleGoToDetails} className="h-12 flex-1 text-base font-bold">
+                      <Button
+                        variant="outline"
+                        onClick={handleGoToDetails}
+                        className="h-10 flex-1 text-base font-bold sm:h-12"
+                      >
                         Details
                       </Button>
                     </div>

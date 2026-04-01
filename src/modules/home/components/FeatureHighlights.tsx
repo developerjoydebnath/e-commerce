@@ -26,7 +26,7 @@ const features = [
 export default function FeatureHighlights() {
   return (
     <section className="container mx-auto px-4">
-      <div className="bg-background grid grid-cols-1 gap-6 rounded-xl border p-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+      <div className="bg-background grid grid-cols-1 gap-6 rounded-xl border p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-4 lg:gap-0">
         {features.map((feature, index) => (
           <div
             key={index}
@@ -34,7 +34,7 @@ export default function FeatureHighlights() {
               index !== features.length - 1 ? 'lg:border-r lg:pr-6' : ''
             } ${index !== 0 ? 'lg:pl-6' : ''}`}
           >
-            <feature.icon className="text-foreground h-10 w-10 stroke-[1.5]" />
+            <feature.icon className="text-foreground xs:h-8 xs:w-8 h-6 w-6 stroke-[1.5] md:h-10 md:w-10" />
             <div className="flex flex-col">
               <h3 className="text-foreground text-sm font-semibold uppercase">{feature.title}</h3>
               <p className="text-muted-foreground text-xs">{feature.description}</p>

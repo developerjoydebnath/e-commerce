@@ -24,18 +24,20 @@ export default function ProductQA({ product }: ProductQAProps) {
 
   return (
     <div className="flex flex-col gap-6 text-left">
-      <h2 className="text-foreground mb-4 text-xl font-bold">Questions about this product ({questionsList.length})</h2>
+      <h2 className="text-foreground mb-4 text-lg font-bold sm:text-xl">
+        Questions about this product ({questionsList.length})
+      </h2>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6 sm:gap-8">
         {currentItems.length === 0 ? (
           <p className="text-muted-foreground">No questions have been asked yet.</p>
         ) : (
           currentItems.map((qa) => (
             <div key={qa.id} className="flex flex-col gap-3">
               <div className="flex items-start gap-3">
-                <MessageCircleQuestion className="text-foreground mt-0.5 h-5 w-5 shrink-0" />
+                <MessageCircleQuestion className="text-foreground mt-0.5 h-4 w-4 shrink-0 sm:h-5 sm:w-5" />
                 <div className="flex flex-col gap-1">
-                  <p className="text-foreground font-semibold">{qa.q}</p>
+                  <p className="text-foreground text-sm font-semibold sm:text-base">{qa.q}</p>
                   <span className="text-muted-foreground text-xs">
                     {qa.questionedBy?.name || 'Anonymous User'} - {new Date(qa.createdAt).toLocaleDateString()}
                   </span>
@@ -43,10 +45,10 @@ export default function ProductQA({ product }: ProductQAProps) {
               </div>
 
               {qa.a && (
-                <div className="bg-muted/30 mt-2 ml-8 flex items-start gap-3 rounded-md border p-4">
+                <div className="bg-muted/30 ml-8 flex items-start gap-3 rounded-md border p-3 sm:mt-2 sm:p-4">
                   <div className="flex flex-col gap-1">
                     <span className="text-primary text-xs font-semibold tracking-wider uppercase">Store Owner</span>
-                    <p className="text-muted-foreground text-sm">{qa.a}</p>
+                    <p className="text-muted-foreground text-xs sm:text-sm">{qa.a}</p>
                   </div>
                 </div>
               )}
@@ -55,9 +57,7 @@ export default function ProductQA({ product }: ProductQAProps) {
         )}
       </div>
 
-      <div className="mt-8 border-t pt-8">
-        <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
-      </div>
+      <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
     </div>
   );
 }

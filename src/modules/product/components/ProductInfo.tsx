@@ -111,17 +111,17 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const reviewsCount = Array.isArray(product.reviews) ? product.reviews.length : product.reviews;
 
   return (
-    <div className="bg-background flex flex-col gap-6 lg:gap-8">
+    <div className="bg-background flex flex-col gap-5 sm:gap-6 lg:gap-8">
       {/* Title & Ratings */}
       <div className="flex flex-col gap-2">
-        <h1 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">{product.name}</h1>
-        <div className="mt-2 flex items-center gap-4 text-sm">
+        <h1 className="text-foreground text-2xl font-bold tracking-tight md:text-3xl">{product.name}</h1>
+        <div className="mt-1 flex items-center gap-2 text-sm sm:mt-2 sm:gap-4">
           <div className="flex items-center">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
                 className={cn(
-                  'h-4 w-4',
+                  'h-3 w-3 sm:h-4 sm:w-4',
                   i < Math.floor(ratingValue) ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground/30'
                 )}
               />
@@ -129,7 +129,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             <span className="ml-2 font-medium">{ratingValue.toFixed(1)}</span>
           </div>
           <span className="text-muted-foreground">({reviewsCount} Reviews)</span>
-          <span className="ml-2">|</span>
+          <span className="sm:ml-2">|</span>
           <span className="font-medium text-green-600">
             {selectedVariant ? (selectedVariant.inStock ? 'In Stock' : 'Out of Stock') : 'In Stock'}
           </span>
@@ -137,13 +137,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* Price */}
-      <div className="flex items-center gap-4">
-        <span className="text-foreground text-3xl font-bold">${currentPrice.toFixed(2)}</span>
+      <div className="flex items-center gap-2 sm:gap-4">
+        <span className="text-foreground text-2xl font-bold sm:text-3xl">${currentPrice.toFixed(2)}</span>
         {currentOriginalPrice && (
-          <span className="text-muted-foreground text-lg line-through">${currentOriginalPrice.toFixed(2)}</span>
+          <span className="text-muted-foreground text-base line-through sm:text-lg">
+            ${currentOriginalPrice.toFixed(2)}
+          </span>
         )}
         {currentOriginalPrice && (
-          <span className="rounded-md bg-red-100 px-2 py-1 text-xs font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400">
+          <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-bold text-red-600 sm:py-1 dark:bg-red-900/30 dark:text-red-400">
             {Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)}% OFF
           </span>
         )}
@@ -153,7 +155,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Variations */}
       {product.attributes.map((attr) => (
-        <div key={attr.name} className="flex flex-col gap-3">
+        <div key={attr.name} className="flex flex-col gap-2 sm:gap-3">
           <div className="flex items-center justify-between">
             <span className="text-foreground text-xs font-semibold tracking-wider uppercase">{attr.name}</span>
             {attr.name.toLowerCase().includes('size') &&
@@ -169,7 +171,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                 </button>
               )}
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {attr.values.map((value) => {
               const isSelected = selectedAttributes[attr.name.toLowerCase()] === value;
               const isColor = attr.name.toLowerCase().includes('color');
@@ -190,8 +192,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                   className={cn(
                     'relative flex items-center justify-center overflow-hidden transition-all focus:outline-none',
                     isColor
-                      ? 'h-12 w-12 rounded-md border-2'
-                      : 'h-10 min-w-12 rounded-md border px-3 text-sm font-medium',
+                      ? 'h-10 w-10 rounded-md border-2 sm:h-12 sm:w-12'
+                      : 'h-8 min-w-10 rounded-md border px-2 text-xs font-medium sm:h-10 sm:min-w-12 sm:px-3 sm:text-sm',
                     isSelected
                       ? isColor
                         ? 'border-primary ring-primary/20 ring-2 ring-offset-1'
@@ -223,7 +225,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           <span className="text-foreground hidden text-xs font-semibold tracking-wider uppercase sm:block">
             Quantity
           </span>
-          <div className="border-input bg-muted/20 flex h-12 w-[120px] items-center justify-between rounded-md border px-3">
+          <div className="border-input bg-muted/20 flex h-10 w-[100px] items-center justify-between rounded-md border px-2 sm:h-12 sm:w-[120px] sm:px-3">
             <button
               onClick={handleDecreaseQuantity}
               aria-label="Decrease quantity"
@@ -245,7 +247,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
         <div className="flex h-full flex-1 items-end gap-3 pt-1 pb-0 sm:pt-0">
           <Button
-            className="h-12 flex-1 rounded-md text-base font-bold uppercase transition-all active:scale-95"
+            className="h-10 flex-1 rounded-md text-sm font-bold uppercase transition-all active:scale-95 sm:h-12 sm:text-base"
             variant="default"
             onClick={handleBuyNow}
             disabled={selectedVariant && !selectedVariant.inStock}
@@ -253,7 +255,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             {selectedVariant && !selectedVariant.inStock ? 'Out of Stock' : 'Buy Now'}
           </Button>
           <Button
-            className="bg-muted text-foreground hover:bg-muted/80 h-12 flex-1 rounded-md border text-base font-bold"
+            className="bg-muted text-foreground hover:bg-muted/80 h-10 flex-1 rounded-md border text-sm font-bold transition-all active:scale-95 sm:h-12 sm:text-base"
             variant="outline"
             onClick={handleAddToCart}
             disabled={selectedVariant && !selectedVariant.inStock}
@@ -264,7 +266,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             variant="outline"
             size="icon"
             className={cn(
-              'h-12 w-12 shrink-0 rounded-md border transition-colors',
+              'h-10 w-10 shrink-0 rounded-md border transition-colors sm:h-12 sm:w-12',
               isWished ? 'border-red-200 bg-red-50 text-red-500 hover:bg-red-100' : ''
             )}
             onClick={toggleWishlist}
@@ -275,7 +277,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       {/* Metadata */}
-      <div className="text-muted-foreground mt-4 flex flex-col gap-2 border-t pt-6 text-sm">
+      <div className="text-muted-foreground flex flex-col gap-2 border-t pt-4 text-sm sm:mt-4 sm:pt-6">
         <p>
           <span className="text-foreground font-semibold">SKU:</span> {selectedVariant?.sku || product.sku}
         </p>

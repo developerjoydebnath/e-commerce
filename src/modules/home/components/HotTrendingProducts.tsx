@@ -25,7 +25,7 @@ export default function HotTrendingProducts() {
         </Link>
       </div>
 
-      <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="mb-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {trendingProducts.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}

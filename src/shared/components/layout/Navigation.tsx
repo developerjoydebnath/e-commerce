@@ -44,7 +44,7 @@ export default function Navigation({ isScrolled = false }: { isScrolled?: boolea
     <motion.div
       initial={false}
       animate={{
-        height: !isDesktop || isScrolled ? '2.5rem' : '3.5rem',
+        height: !isDesktop || isScrolled ? '2.5rem' : '3rem',
       }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
       className="bg-primary text-primary-foreground"

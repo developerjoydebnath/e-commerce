@@ -10,7 +10,7 @@ interface ProductTabsProps {
 export default function ProductTabs({ description, specifications = [] }: ProductTabsProps) {
   return (
     <div className="w-full text-left">
-      <h2 className="text-foreground mb-6 text-xl font-bold sm:text-2xl">Product details</h2>
+      <h2 className="text-foreground mb-4 text-lg font-bold sm:text-2xl">Product details</h2>
       <Tabs defaultValue="description" className="w-full">
         <TabsList className="mb-2 flex h-auto! w-full justify-start rounded-none border-b bg-transparent p-0 sm:mb-4 md:mb-8">
           <TabsTrigger

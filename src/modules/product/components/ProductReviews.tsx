@@ -55,25 +55,25 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
 
   return (
     <div className="flex flex-col gap-4 text-left sm:gap-6 md:gap-10">
-      <h2 className="text-foreground mb-4 text-xl font-bold sm:text-2xl">Ratings & Reviews</h2>
+      <h2 className="text-foreground text-lg font-bold sm:mb-4 sm:text-2xl">Ratings & Reviews</h2>
 
       <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
         {/* Left: Summary */}
         <div className="flex w-full shrink-0 flex-col gap-6 self-start lg:sticky lg:top-32 lg:w-[300px] xl:w-[350px]">
           <div className="flex items-end gap-2">
-            <h3 className="text-foreground text-5xl font-bold tracking-tight">
+            <h3 className="text-foreground text-4xl font-bold tracking-tight sm:text-5xl">
               {product.ratings?.rating?.toFixed(1) || '0.0'}
             </h3>
             <span className="text-muted-foreground pb-1 text-lg font-medium">/5</span>
           </div>
 
-          <div className="mt-2 flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1.5 sm:mt-2">
             <div className="flex items-center">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
                   className={cn(
-                    'h-6 w-6',
+                    'h-5 w-5 sm:h-6 sm:w-6',
                     i < Math.round(product.ratings?.rating || 0)
                       ? 'fill-black text-black dark:fill-white dark:text-white'
                       : 'text-muted-foreground/30 fill-none'
@@ -84,7 +84,7 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
             <span className="text-foreground mt-1 text-sm font-medium">{product.ratings?.total || 0} Reviews</span>
           </div>
 
-          <div className="mt-4 flex flex-col gap-3">
+          <div className="flex flex-col gap-3 sm:mt-4">
             {[5, 4, 3, 2, 1].map((stars) => {
               const total = product.ratings?.total || 1; // avoid division by zero
               const counts = [
@@ -171,12 +171,12 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
 
           <Separator className="my-4" />
 
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-4">
             {currentItems.length === 0 ? (
               <p className="text-muted-foreground">No reviews yet.</p>
             ) : (
               currentItems.map((review) => (
-                <div key={review.id} className="flex flex-col gap-4">
+                <div key={review.id} className="flex flex-col gap-4 border-b border-dashed pb-4">
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-2">
                       <span className="text-foreground text-base leading-none font-semibold">{review.user.name}</span>
@@ -235,9 +235,7 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
             )}
           </div>
 
-          <div className="mt-12">
-            <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
-          </div>
+          <AppPagination pageCount={pageCount} onPageChange={handlePageClick} />
         </div>
       </div>
 

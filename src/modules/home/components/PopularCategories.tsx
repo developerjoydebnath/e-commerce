@@ -55,7 +55,7 @@ export default function PopularCategories({
         </div>
 
         {/* Small category grid */}
-        <div className="col-span-1 grid grid-cols-1 gap-4 sm:grid-cols-2 md:col-span-2 lg:col-span-7 xl:grid-cols-3">
+        <div className="xs:grid-cols-2 col-span-1 grid grid-cols-1 gap-4 md:col-span-2 lg:col-span-7 xl:grid-cols-3">
           {data.map((category) => (
             <CategoryCard key={category.id} {...category} />
           ))}

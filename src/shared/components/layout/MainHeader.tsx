@@ -22,8 +22,8 @@ export default function MainHeader({ isScrolled = false }: { isScrolled?: boolea
     <motion.div
       initial={false}
       animate={{
-        paddingTop: !isDesktop || isScrolled ? '0.5rem' : '1.5rem',
-        paddingBottom: !isDesktop || isScrolled ? '0.5rem' : '1.5rem',
+        paddingTop: !isDesktop || isScrolled ? '0.5rem' : '0.5rem',
+        paddingBottom: !isDesktop || isScrolled ? '0.5rem' : '0.5rem',
       }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
       className="bg-background border-b"

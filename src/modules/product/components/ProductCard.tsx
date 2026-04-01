@@ -105,7 +105,7 @@ export default function ProductCard(props: ProductCardProps) {
   return (
     <div
       onClick={() => router.push(`/products/${slug || id}`)}
-      className="group bg-card relative flex cursor-pointer flex-col overflow-hidden rounded-xl border transition-all duration-300 hover:shadow-md"
+      className="group bg-card xs:rounded-xl relative flex cursor-pointer flex-col overflow-hidden rounded-md border transition-all duration-300 hover:shadow-md"
     >
       {/* Badges & Actions */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
@@ -117,18 +117,18 @@ export default function ProductCard(props: ProductCardProps) {
         )}
       </div>
 
-      <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="absolute top-3 right-3 z-10 flex flex-col gap-1.5 opacity-100 transition-opacity duration-300 sm:gap-2 lg:opacity-0 lg:group-hover:opacity-100">
         <Button
           onClick={toggleWishlist}
           aria-label={mounted && isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
           className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors',
+            'flex h-7 w-7 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors sm:h-8 sm:w-8',
             mounted && isInWishlist
               ? 'bg-red-50 text-red-500 hover:bg-red-100'
               : 'bg-background/80 hover:bg-primary hover:text-primary-foreground text-black'
           )}
         >
-          <Heart className={cn('h-4 w-4', mounted && isInWishlist && 'fill-current')} />
+          <Heart className={cn('h-3.5! w-3.5! sm:h-4 sm:w-4', mounted && isInWishlist && 'fill-current')} />
         </Button>
         <Button
           onClick={(e) => {
@@ -148,13 +148,13 @@ export default function ProductCard(props: ProductCardProps) {
           }}
           aria-label={isInCompare ? 'Remove from compare' : 'Add to compare'}
           className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors',
+            'flex h-7 w-7 items-center justify-center rounded-full shadow-sm backdrop-blur-sm transition-colors sm:h-8 sm:w-8',
             mounted && isInCompare
               ? 'bg-blue-50 text-blue-600 hover:bg-blue-100'
               : 'bg-background/80 hover:bg-primary hover:text-primary-foreground text-black'
           )}
         >
-          <Repeat className="h-4 w-4" />
+          <Repeat className="h-3.5! w-3.5! sm:h-4 sm:w-4" />
         </Button>
       </div>
 
@@ -172,7 +172,7 @@ export default function ProductCard(props: ProductCardProps) {
       </div>
 
       {/* Content wrapped in a link except buttons */}
-      <div className="flex flex-1 flex-col p-4">
+      <div className="xs:p-4 flex flex-1 flex-col p-2.5">
         <div className="group/content flex flex-1 flex-col">
           <h3 className="text-foreground group-hover/content:text-primary line-clamp-1 text-sm leading-tight font-medium transition-colors">
             {name}
@@ -192,28 +192,31 @@ export default function ProductCard(props: ProductCardProps) {
                 />
               ))}
             </div>
-            <span className="text-muted-foreground text-[11px]">
+            <span className="text-muted-foreground xs:block hidden text-[11px]">
               ({typeof rating === 'number' ? rating : (rating as any)?.rating || 0}){' '}
               {Array.isArray(reviews) ? reviews.length : reviews} Reviews
+            </span>
+            <span className="text-muted-foreground xs:hidden block text-[11px]">
+              ({Array.isArray(reviews) ? reviews.length : reviews || 0})
             </span>
           </div>
 
           <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-primary text-base font-bold">${price.toFixed(2)}</span>
+            <span className="text-primary text-sm font-bold sm:text-base">${price.toFixed(2)}</span>
             {originalPrice && (
               <span className="text-muted-foreground text-xs line-through">${originalPrice.toFixed(2)}</span>
             )}
           </div>
         </div>
 
-        <div className="relative z-20 mt-auto flex gap-2 pt-4">
+        <div className="relative z-20 mt-auto flex gap-2 pt-2 sm:pt-4">
           <Button variant="outline" size="default-responsive" onClick={handleBuyNow} className="w-full flex-1">
             <Handbag className="h-3.5 w-3.5" />
-            <span className=":hidden">Buy Now</span>
+            <span className="2xs:block hidden">Buy</span>
           </Button>
           <Button size="default-responsive" className="w-full flex-1" onClick={handleAddToCart}>
             <ShoppingCart className="h-3.5 w-3.5" />
-            <span className="">Add</span>
+            <span className="2xs:block hidden">Add</span>
           </Button>
         </div>
       </div>
